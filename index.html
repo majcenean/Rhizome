@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPEC TECH</title>
+    <style> 
+
+		html {
+			box-sizing: border-box;
+		}
+
+		*, *:before; *:after; {
+			box-sizing: inherit;
+		}
+
+		body {
+			padding: 0; 
+			margin: 0;
+			text-align: center;
+			background-color: #73c98a;
+			user-select: none;
+			color: #f2ece6;
+		}
+
+		p {
+			font-size: 18px;
+		}
+
+		p, h1, h2, h3, h4, h5 {
+			color: #f2ece6;
+		}
+
+		h1, h2, h3, h4, h5 {
+			font-size: 22px;
+		}
+
+		iframe {
+			display: block;
+			margin: auto;
+			border: none;
+			border-radius: 0px;
+			position: absolute;
+			width: 1366px;
+			height: 768px;
+		}
+
+		header {
+			display: block;
+			margin: auto;
+			text-align: left;
+			width: 1366px;
+			height: 90px;
+		}
+
+		nav {
+			width: 500px;
+			height: 90px;
+			position: absolute;
+			top: 0%;
+			right: 50px;
+			opacity: 50%;
+			transition: 0.2s;
+		}
+
+		nav:hover {
+			opacity: 95%;
+		}
+
+		#container_img {
+			display: flex;
+			justify-content: space-around;
+			align-items: flex-end;
+			margin-top: 15px;
+		}
+
+		#container_img img {
+			width: 90px;
+			height: 60px;
+		}
+
+		#container_p {
+			display: flex;
+			justify-content: space-around;
+			align-items: flex-end;
+			margin-top: -25px;
+		}
+
+		#container_p p {
+			width: 90px;
+			height: 10px;
+		}
+
+		#frame {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			z-index: -10;
+		}
+    </style>
+    <script src="lib/p5.js"></script>
+    <script src="lib/p5.sound.js"></script>
+    <script src="lib/p5.play.js"></script>
+    <script src="lib/p5.timer.js"></script>
+    <script src="lib/p5.clickable.js"></script>
+    <script src="lib/p5.2DAdventure.js"></script>
+    <link rel="shortcut icon" href="assets/favicon.png" />
+  </head>
+  <body>
+  	    <div id="frame">
+  	    	<img src="assets/frame.png" alt="decorative frame" draggable="false" style="display:inline; position: static; margin-top: 75px;">
+  	    </div>
+
+    	<script src="sketch.js" style="display: block;"></script>
+
+		<footer>
+			
+		</footer>
+
+    </div>
+  </body>
+</html>
