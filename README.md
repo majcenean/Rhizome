@@ -1,5 +1,5 @@
 ## ART385 Project 3
-##### May 10, 2021
+##### May 13, 2021
 by Maj Jenkins
 
 Hosted currently at https://xarts.usfca.edu/~mrjenkins/art385/project3/
@@ -24,7 +24,11 @@ This game uses multiple add-on libraries for p5.js.
 * p5.adventure manager by Scott Kildall
 
 ##### fonts
+Changeling Neo
 
+Eurostile
+
+Raleway
 
 ##### sfx
 

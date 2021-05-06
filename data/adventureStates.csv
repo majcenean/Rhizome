@@ -1,3 +1,12 @@
-StateName,ClassName,PNGFilename,CollisionFilename
-Splash,PNGRoom,assets/Splash.png,
-Instructions,InstructionsScreen,assets/Instructions.png,
+ID,StateName,ClassName,PNGFilename,CollisionFilename
+0,Background,BackgroundScreen,,
+1,Tour,TourScreen,assets/main_screen.png,
+2,Instructions,PNGRoom,assets/Instructions.png,
+3,Start,ScenarioRoom,assets/main_screen.png,
+4,GoomazonMoves,ScenarioRoom,assets/main_screen.png,
+5,CityPays,ScenarioRoom,assets/main_screen.png,
+6,RaisedTaxes,ScenarioRoom,assets/main_screen.png,
+7,RivalCompany,ScenarioRoom,assets/main_screen.png,
+8,GoomazonExpands,ScenarioRoom,assets/main_screen.png,
+9,CityUgly,ScenarioRoom,assets/main_screen.png,
+10,WorkersStrike,ScenarioRoom,assets/main_screen.png,

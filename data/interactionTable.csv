@@ -1,3 +1,15 @@
 CurrentState,KeyTyped,KeyCode,MouseEvent,ClickableName,MapDirection,NextState
-Splash,,,,InstructButton,,Instructions
-Instructions,,,,StartGame,,House
+Background,,,,BeginGameBg,,Instructions
+Background,,,,BeginTour,,Tour
+Tour,,,,BeginGameTour,,Instructions
+Instructions,,,mouseReleased,,,Start
+Start,,,,Start_Good,,GoomazonMoves
+Start,,,,Start_Evil,,CityPays
+GoomazonMoves,,,,GoomazonMoves_RaiseTaxes,,RaisedTaxes
+GoomazonMoves,,,,GoomazonMoves_CityPays,,CityPays
+GoomazonMoves,,,,GoomazonMoves_BuildRival,,RivalCompany
+GoomazonMoves,,,,GoomazonMoves_IgnoreThem,,GoomazonExpands
+CityPays,,,,CityPays_CutTheArts,,CityUgly
+CityPays,,,,CityPays_CutTransportation,,CityUgly
+CityPays,,,,CityPays_CutCityWages,,WorkersStrike
+CityPays,,,,CityPays_CutParks,,CityUgly
