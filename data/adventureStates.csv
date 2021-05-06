@@ -1,7 +1,7 @@
 ID,StateName,ClassName,PNGFilename,CollisionFilename
 0,Background,BackgroundScreen,,
 1,Tour,TourScreen,assets/main_screen.png,
-2,Instructions,PNGRoom,assets/Instructions.png,
+2,Instructions,PNGRoom,,
 3,Start,ScenarioRoom,assets/main_screen.png,
 4,GoomazonMoves,ScenarioRoom,assets/main_screen.png,
 5,CityPays,ScenarioRoom,assets/main_screen.png,

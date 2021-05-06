@@ -25,6 +25,8 @@ var playerAnimation;
 // Clickables: the manager class
 var clickablesManager;    // the manager class
 var clickables;           // an array of clickable objects
+var clickablesIconsManager;
+var clickablesIcons;
 
 
 
@@ -60,8 +62,10 @@ var angerImage;   // anger emoji
 var maxAnger = 5;
 
 // character arrays
-var characterImages = [];   // array of character images, keep global for future expansion
-var characters = [];        // array of charactes
+var characters = [];        // array of characters
+var characterImages = [];
+var characterInfo = [];
+var characterNames = [];
 
 // characters
 const SOC = 0;
@@ -107,17 +111,23 @@ let bodyFont;
 
 // Allocate Adventure Manager with states table and interaction tables
 function preload() {
-
+  // Fonts
   titleFont = loadFont('assets/font/Changeling_Neo_Bold.otf');
   bodyFont = loadFont('assets/font/eurostile.otf');
 
-  // load all images
+  // Images
+  tintImage = loadImage("assets/tint.png");
+  textBox = loadImage("assets/textbox.png");
   angerImage = loadImage("assets/anger_emoji.png");
-  
+
+  // Characters
   allocateCharacters();
 
+  // Adventure and Clickables Managers
   clickablesManager = new ClickableManager('data/clickableLayout.csv');
   adventureManager = new AdventureManager('data/adventureStates.csv', 'data/interactionTable.csv', 'data/clickableLayout.csv');
+
+  clickablesIconsManager = new ClickableManager('data/clickableIconsLayout.csv');
 }
 
 /*************************************************************************
@@ -135,6 +145,8 @@ function setup() {
   // setup the clickables = this will allocate the array
   clickables = clickablesManager.setup();
 
+  clickablesIcons = clickablesIconsManager.setup();
+
   // this is optional but will manage turning visibility of buttons on/off
   // based on the state name in the clickableLayout
   adventureManager.setClickableManager(clickablesManager);
@@ -150,6 +162,9 @@ function setup() {
   fs = fullscreen();
 }
 
+/*************************************************************************
+// Function draw
+**************************************************************************/
 function draw() {
   // draws background rooms and handles movement from one to another
   adventureManager.draw();
@@ -165,6 +180,7 @@ function draw() {
   }
   else {
     drawCharacters();
+    clickablesIconsManager.draw();
   }
   
   // draw the p5.clickables, in front of the mazes but behind the sprites 
@@ -195,26 +211,22 @@ function drawCharacters() {
   }
 }
 
-//-------------- CLICKABLES  ---------------//
-
+/*************************************************************************
+// Function Clickables
+**************************************************************************/
 function setupClickables() {
-  // All clickables to have same effects
+  // Clickable Buttons
   for( let i = 0; i < clickables.length; i++ ) {
     clickables[i].onHover = clickableButtonHoverNORM;
     clickables[i].onOutside = clickableButtonOnOutsideNORM;    
   }
 
-  for( let i = 3; i <= 7; i++ ) {
-    clickables[i].onHover = clickableButtonHoverICON;
-    clickables[i].onOutside = clickableButtonOnOutsideICON;    
-  }
-
-  for( let i = 8; i < clickables.length; i++ ) {
+  for( let i = 3; i < clickables.length; i++ ) {
     clickables[i].onHover = clickableButtonHoverCHOICE;
     clickables[i].onOutside = clickableButtonOnOutsideCHOICE;    
   }
 
-  // we do specific callbacks for each clickable
+  // specific callbacks for each clickable
   clickables[0].onPress = clickableButtonPressed;
   clickables[1].onPress = clSOCPays;
   clickables[2].onPress = clCityPays;
@@ -228,13 +240,20 @@ function setupClickables() {
   clickables[10].onPress = clCutCityWages;
   clickables[11].onPress = clCutParks;
 
+  // Clickable Icons
+  for( let i = 0; i < clickablesIcons.length; i++ ) {
+    clickablesIcons[i].onHover = clickableButtonHoverICON;
+    clickablesIcons[i].onOutside = clickableButtonOnOutsideICON;    
+  }
+
+  clickablesIcons[0].onPress = clickableButtonPressed;
 }
 
 clickableButtonPressed = function() {
   adventureManager.clickablePressed(this.name);
 } 
 
-clickableButtonOnOutsideNORM = function () {
+clickableButtonOnOutsideNORM = function() {
   this.color = palette[3];
   this.stroke = "#00000000";
   this.textSize = 16;
@@ -244,16 +263,15 @@ clickableButtonOnOutsideNORM = function () {
   this.height = 30;
 }
 
-clickableButtonHoverNORM = function () {
+clickableButtonHoverNORM = function() {
   this.color = palette[4];
   this.noTint = false;
   this.tint = palette[4];
 }
 
-clickableButtonOnOutsideICON = function () {
+clickableButtonOnOutsideICON = function() {
   this.color = "#00000000";
   this.stroke = "#00000000";
-  // this.stroke = palette[4];
   this.textSize = 16;
   this.textColor = palette[0];
   this.textFont = bodyFont;
@@ -261,13 +279,14 @@ clickableButtonOnOutsideICON = function () {
   this.height = 110;
 }
 
-clickableButtonHoverICON = function () {
+clickableButtonHoverICON = function() {
   this.color = palette[3];
   this.noTint = true;
   this.tint = palette[4];
+  clickableButtonHoverEffect();
 }
 
-clickableButtonOnOutsideCHOICE = function () {
+clickableButtonOnOutsideCHOICE = function() {
   this.color = palette[2];
   this.stroke = palette[0];
   this.strokeWeight = 5;
@@ -279,19 +298,91 @@ clickableButtonOnOutsideCHOICE = function () {
   this.height = 50;
 }
 
-clickableButtonHoverCHOICE = function () {
+clickableButtonHoverCHOICE = function() {
   this.color = palette[3];
   this.noTint = true;
   this.tint = palette[3];
 }
 
+clickableButtonHoverEffect = function() {
+  image(tintImage, 0, 0, 1366, 768);
+  // image(textBox, this.x + this.width, this.y + this.height/2);
+
+  if (mouseY <= 490) {
+    // draws textbox underneath mouse
+    image(textBox, mouseX, mouseY);
+    drawClickableIconImages();
+  }
+  else {
+    // draws textbox above mouse
+    image(textBox, mouseX, mouseY - 253);
+    drawClickableIconImages();
+  }
+
+}
+
+function drawClickableIconImages() {
+  if (mouseY > 100 && mouseY < 230) {
+    drawClickableIconImage(SOC, mouseY + 30);
+    drawClickableIconText(SOC, mouseY + 30);
+  }
+  else if (mouseY > 230 && mouseY < 360) {
+    drawClickableIconImage(ENTH, mouseY + 30);
+    drawClickableIconText(ENTH, mouseY + 30);
+  }
+  else if (mouseY > 360 && mouseY < 490) {
+    drawClickableIconImage(GOV, mouseY + 30);
+    drawClickableIconText(GOV, mouseY + 30);
+  }
+  else if (mouseY > 490 && mouseY < 620) {
+    drawClickableIconImage(PSYCH, mouseY + 30 - 253);
+    drawClickableIconText(PSYCH, mouseY + 30 - 253);
+  }
+  else if (mouseY > 620 && mouseY < 768) {
+    drawClickableIconImage(ANTI, mouseY + 30 - 253);
+    drawClickableIconText(ANTI, mouseY + 30 - 253);
+  }
+}
+
+function drawClickableIconImage(name, y) {
+  image(characterImages[name], mouseX + 862 - 230, y, 200, 200);
+}
+
+function drawClickableIconText(name, y) {
+  // Title
+  push();
+  fill(palette[4]);
+  textSize(32);
+  textFont(titleFont);
+  text(characterNames[name], mouseX + 31, y + 20, 800 - 220, 160);
+  pop();
+
+  // Body
+  push();
+  fill(palette[4]);
+  textSize(20);
+  text(characterInfo[name], mouseX + 31, y + 70, 800 - 220, 160);
+  pop();
+}
+
+characterNames[SOC] = "social recluses";
+characterNames[ENTH] = "tech enthusiasts";
+characterNames[GOV] = "global governments";
+characterNames[PSYCH] = "social professionals";
+characterNames[ANTI] = "skeptics and theorists";
+
+characterInfo[SOC] = "Voluptatem mollitia dolor incidunt. Molestias et ea rerum sint nobis repellat. Non sed incidunt minus repellendus ipsam non et. Quidem ratione atque qui recusandae…";
+characterInfo[ENTH] = "Voluptatem mollitia dolor incidunt. Molestias et ea rerum sint nobis repellat. Non sed incidunt minus repellendus ipsam non et. Quidem ratione atque qui recusandae…";
+characterInfo[GOV] = "Voluptatem mollitia dolor incidunt. Molestias et ea rerum sint nobis repellat. Non sed incidunt minus repellendus ipsam non et. Quidem ratione atque qui recusandae…";
+characterInfo[PSYCH] = "Voluptatem mollitia dolor incidunt. Molestias et ea rerum sint nobis repellat. Non sed incidunt minus repellendus ipsam non et. Quidem ratione atque qui recusandae…";
+characterInfo[ANTI] = "Voluptatem mollitia dolor incidunt. Molestias et ea rerum sint nobis repellat. Non sed incidunt minus repellendus ipsam non et. Quidem ratione atque qui recusandae…";
 
 
 
 
-
-
-
+/*************************************************************************
+// Clickables callbacks
+**************************************************************************/
 //-- specific button callbacks: these will add or subtrack anger, then
 //-- pass the clickable pressed to the adventure manager, which changes the
 //-- state. A more elegant solution would be to use a table for all of these values
@@ -311,7 +402,6 @@ clCityPays = function() {
 
 clRaiseTaxes = function() {
   characters[PSYCH].addAnger(1);
-  // characters[consumer].addAnger(1);
   characters[ANTI].addAnger(1);
   characters[SOC].subAnger(1);
   adventureManager.clickablePressed(this.name);
@@ -334,7 +424,6 @@ clIgnoreThem = function() {
 
 clCutArts = function() {
   characters[ANTI].addAnger(2);
-  // characters[consumer].addAnger(2);
   characters[ENTH].addAnger(1);
   adventureManager.clickablePressed(this.name);
 }
@@ -342,48 +431,45 @@ clCutArts = function() {
 clCutTransportation = function() {
   characters[ANTI].addAnger(3);
   characters[ENTH].addAnger(1);
-  // characters[consumer].addAnger(1);
   adventureManager.clickablePressed(this.name);
 }
 
 clCutCityWages = function() {
   characters[ENTH].addAnger(2);
   characters[GOV].addAnger(2);
-  // characters[consumer].addAnger(1);
   adventureManager.clickablePressed(this.name);
 }
 
 clCutParks = function() {
   characters[ENTH].addAnger(1);
   characters[ANTI].addAnger(2);
-  // characters[consumer].addAnger(1);
   adventureManager.clickablePressed(this.name);
 }
 
 
 
 
-
-//-------------- CHARACTERS -------------//
+/*************************************************************************
+// Characters
+**************************************************************************/
 function allocateCharacters() {
   // load the images first
-  characterImages[SOC] = loadImage("assets/icon/soc.png");
-  characterImages[ENTH] = loadImage("assets/icon/enth.png");
-  characterImages[GOV] = loadImage("assets/icon/gov.png");
-  characterImages[PSYCH] = loadImage("assets/icon/psych.png");
-  characterImages[ANTI] = loadImage("assets/icon/anti.png");
+  characterImages[SOC] = loadImage("assets/icon/soc_l.png");
+  characterImages[ENTH] = loadImage("assets/icon/enth_l.png");
+  characterImages[GOV] = loadImage("assets/icon/gov_l.png");
+  characterImages[PSYCH] = loadImage("assets/icon/psych_l.png");
+  characterImages[ANTI] = loadImage("assets/icon/anti_l.png");
 
   for( let i = 0; i < characterImages.length; i++ ) {
     characters[i] = new Character();
     // characters[i].setup( characterImages[i], 50 + (400 * parseInt(i/2)), 120 + (i%2 * 120));
-    characters[i].setup( characterImages[i], 35, 100 + (i*130));
+    characters[i].setup(characterImages[i], 35, 100 + (i*130));
   }
 
-  // default anger is zero, set up some anger values
+  // Default Anger
   characters[GOV].addAnger(1);
   characters[PSYCH].addAnger(2);
   characters[ANTI].addAnger(1);
-  // characters[consumer].subAnger(2); // test
 }
 
 class Character {
@@ -405,7 +491,7 @@ class Character {
       push();
       // draw the character icon
       imageMode(CORNER);
-      image( this.image, this.x, this.y, 110, 110);
+      // image( this.image, this.x, this.y, 110, 110);
 
       // draw anger emojis
       for( let i = 0; i < this.anger; i++ ) {
@@ -438,8 +524,10 @@ class Character {
   }
 }
 
-//-------------- ROOMS --------------//
 
+/*************************************************************************
+// Rooms
+**************************************************************************/
 // hard-coded text for all the rooms
 // the elegant way would be to load from an array
 function loadAllText() {
@@ -461,8 +549,9 @@ function loadAllText() {
   // scenarioRooms[workersStrike].setText("How do we respond?", "There are massive worker's strikes. The city is shut down. Big labor is angry and riling people up. Thousands of protesters are in the streets.");
 }
 
-//-------------- SUBCLASSES / YOUR DRAW CODE CAN GO HERE ---------------//
-
+/*************************************************************************
+// State subclasses
+**************************************************************************/
 class BackgroundScreen extends PNGRoom {
   preload() {
     this.textBoxWidth = (width/6)*4;
@@ -494,10 +583,6 @@ class BackgroundScreen extends PNGRoom {
   }
 }
 
-
-
-
-
 class TourScreen extends PNGRoom {
   preload() {
     this.textBoxWidth = (width/6)*4;
@@ -510,8 +595,6 @@ class TourScreen extends PNGRoom {
     super.draw();
   }
 }
-
-
 
 class ScenarioRoom extends PNGRoom {
   // Constructor gets called with the new keyword, when upon constructor for the adventure manager in preload()

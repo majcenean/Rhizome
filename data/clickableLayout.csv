@@ -2,18 +2,15 @@ ID,Name,State,PNGFilename,Text,x,y,visible
 0,BeginTour,Background,,"Yes, show me around",610,600,yes
 1,BeginGameBg,Background,,"No, I've played before",875,600,yes
 2,BeginGameTour,Tour,,Begin game,558,600,yes
-3,SOC,Start,assets/icon/soc.png,,35,100,yes
-4,ENTH,Start,assets/icon/enth.png,,35,230,yes
-5,GOV,Start,assets/icon/gov.png,,35,360,yes
-6,PSYCH,Start,assets/icon/psych.png,,35,490,yes
-7,ANTI,Start,assets/icon/anti.png,,35,620,yes
-8,Start_Good,Start,,Wellness Organization,975,400,yes
-9,Start_Evil,Start,,Silicon Startup,975,600,yes
-10,GoomazonMoves_CityPays,GoomazonMoves,,Yes: City Pays,975,200,yes
-11,GoomazonMoves_RaiseTaxes,GoomazonMoves,,Yes: Raise Taxes,975,300,yes
-12,GoomazonMoves_BuildRival,GoomazonMoves,,Build a Rival,975,400,yes
-13,GoomazonMoves_IgnoreThem,GoomazonMoves,,Ignore Them,975,500,yes
-14,CityPays_CutTheArts,CityPays,,The Arts,975,200,yes
-,CityPays_CutTransportation,CityPays,,Transportation,975,300,yes
-,CityPays_CutCityWages,CityPays,,City Wages,975,400,yes
-,CityPays_CutParks,CityPays,,Parks,975,500,yes
+3,Start_Good,Start,,Wellness Organization,975,400,yes
+4,Start_Evil,Start,,Silicon Startup,975,600,yes
+5,GoomazonMoves_CityPays,GoomazonMoves,,Yes: City Pays,975,200,yes
+6,GoomazonMoves_RaiseTaxes,GoomazonMoves,,Yes: Raise Taxes,975,300,yes
+7,GoomazonMoves_BuildRival,GoomazonMoves,,Build a Rival,975,400,yes
+8,GoomazonMoves_IgnoreThem,GoomazonMoves,,Ignore Them,975,500,yes
+9,CityPays_CutTheArts,CityPays,,The Arts,975,200,yes
+10,CityPays_CutTransportation,CityPays,,Transportation,975,300,yes
+11,CityPays_CutCityWages,CityPays,,City Wages,975,400,yes
+12,CityPays_CutParks,CityPays,,Parks,975,500,yes
+13,,,,,,,
+14,,,,,,,
