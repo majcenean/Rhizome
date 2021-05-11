@@ -229,18 +229,22 @@ function setupClickables() {
   }
 
   // specific callbacks for each clickable
-  clickables[0].onPress = clickableButtonPressed;
-  clickables[1].onPress = clSOCPays;
-  clickables[2].onPress = clCityPays;
-  clickables[3].onPress = clRaiseTaxes;
-  clickables[4].onPress = clCityPays;
-  clickables[5].onPress = clRaiseTaxes;
-  clickables[6].onPress = clBuildRival;
-  clickables[7].onPress = clIgnoreThem;
-  clickables[8].onPress = clCutArts;
-  clickables[9].onPress = clCutTransportation;
-  clickables[10].onPress = clCutCityWages;
-  clickables[11].onPress = clCutParks;
+  // clickables[0].onPress = clickableButtonPressed;
+  // clickables[1].onPress = clSOCPays;
+  // clickables[2].onPress = clCityPays;
+  // clickables[3].onPress = clRaiseTaxes;
+  // clickables[4].onPress = clCityPays;
+  // clickables[5].onPress = clRaiseTaxes;
+  // clickables[6].onPress = clBuildRival;
+  // clickables[7].onPress = clIgnoreThem;
+  // clickables[8].onPress = clCutArts;
+  // clickables[9].onPress = clCutTransportation;
+  // clickables[10].onPress = clCutCityWages;
+  // clickables[11].onPress = clCutParks;
+
+  for( let i = 0; i < clickables.length; i++ ) {
+    clickables[i].onPress = clickableButtonPressed; 
+  }
 
   // Clickable Icons
   for( let i = 0; i < clickablesIcons.length; i++ ) {
