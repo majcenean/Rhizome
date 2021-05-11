@@ -171,15 +171,17 @@ function draw() {
 
  // drawCharacters();
 
-  // don't draw them on first few screens
+  // don't draw them on these screens
   if( adventureManager.getStateName() === "Background" ||
       adventureManager.getStateName() === "Instructions" ||
       adventureManager.getStateName() === "Tour" ||
-      adventureManager.getStateName() === "Characters" ) {
+      adventureManager.getClassName() === "EffectsScreen" ) {
     ;
   }
   else {
     drawCharacters();
+
+    // draws hover clickables for characters
     clickablesIconsManager.draw();
   }
   
@@ -371,11 +373,11 @@ characterNames[GOV] = "global governments";
 characterNames[PSYCH] = "social professionals";
 characterNames[ANTI] = "skeptics and theorists";
 
-characterInfo[SOC] = "Voluptatem mollitia dolor incidunt. Molestias et ea rerum sint nobis repellat. Non sed incidunt minus repellendus ipsam non et. Quidem ratione atque qui recusandae…";
-characterInfo[ENTH] = "Voluptatem mollitia dolor incidunt. Molestias et ea rerum sint nobis repellat. Non sed incidunt minus repellendus ipsam non et. Quidem ratione atque qui recusandae…";
-characterInfo[GOV] = "Voluptatem mollitia dolor incidunt. Molestias et ea rerum sint nobis repellat. Non sed incidunt minus repellendus ipsam non et. Quidem ratione atque qui recusandae…";
-characterInfo[PSYCH] = "Voluptatem mollitia dolor incidunt. Molestias et ea rerum sint nobis repellat. Non sed incidunt minus repellendus ipsam non et. Quidem ratione atque qui recusandae…";
-characterInfo[ANTI] = "Voluptatem mollitia dolor incidunt. Molestias et ea rerum sint nobis repellat. Non sed incidunt minus repellendus ipsam non et. Quidem ratione atque qui recusandae…";
+characterInfo[SOC] = "The growing global population finds it more and more challenging to talk to others as each day passes. As instability and incapability defines their lives, they might do anything to get their hands on a solution to their pain - no matter what form that solution may come in.";
+characterInfo[ENTH] = "The savvy trend-followers who just have to be on the next big thing in the tech world. The novelty of an independent startup thrills them, the glamour of a shiny new product entices them. As proponents of the private sector, they simply want the newest and nicest thing available on the market.";
+characterInfo[GOV] = "Governing bodies across the world. While one might believe their primary concern is that for the safety and welfare for their citizens, profit and capital wealth may rank higher on the priority list for some. At any rate, they desire stability, which means either appeasing or suppressing the majority of the people.";
+characterInfo[PSYCH] = "The counselors, psychologists, medics, and analysts of human social needs. To tend to their patients and pursue a cure for the pervasive loneliness which has infected the world twice-around, they look towards a world where everyone is happy, healthy, and satisfied with their life.";
+characterInfo[ANTI] = "Critics and other doubtful members of society who are not convinced that The Interface is necessarily a positive addition to humanity's toolbox. Instead of technological solutions, they say, we should pursue the natural solutions of community building and a reduced workday.";
 
 
 
@@ -537,16 +539,7 @@ function loadAllText() {
 // copy the array reference from adventure manager so that code is clearer
   scenarioRooms = adventureManager.states;
 
-  scenarioRooms[Start].setText("How should the company brand itself?");
-
-  // scenarioRooms[startScreen].setText("Who Pays for it?", "The underground tunnels cost money to maintain. SOC threatens to leave the city if they have to pay for all the maintenance work. Who pays for it?");
-  // scenarioRooms[SOCMovesScreen].setText("Do we lure them back?", "SOC moves their headquarters to our rival city across the river. They layoff local workers. How should we respond?");
-  // scenarioRooms[cityPaysScreen].setText("What do we cut?", "The city budget is getting tanked because of the cost of the tunels. Which programs should we cut?");
-  // scenarioRooms[raisedTaxesScreen].setText("How do we help the economy?", "The wealthy leave the city in droves. Restaurants start closing and our tax base is depleted. What do we do?");
-  // scenarioRooms[rivalCompanyScreen].setText("It's bad, what do we do?", "The rival company is even worse than SOC. In addition to being anti-union, they force everyone to wear silly uniforms, sing happy children's songs and sign the most restrictive NDAs ever.");
-  // scenarioRooms[SOCExpands].setText("Oh-no! Now what to do?", "SOC expands its operations. It is now both in your city and the rival city. It's driven out all the local businesses.");
-  // scenarioRooms[cityUgly].setText("How can we fix this?", "The city has cut the budget to some of its essential services. It's been a cascading effect. Without arts and adequate transportation, everyone has become depressed. THE END.");
-  // scenarioRooms[workersStrike].setText("How do we respond?", "There are massive worker's strikes. The city is shut down. Big labor is angry and riling people up. Thousands of protesters are in the streets.");
+  scenarioRooms[3].setText("Societies across the globe flock in curiosity towards this brand-new development. How should The Interface make its first bold steps into society? Should it represent itself as the miracle cure to all of humanity's issues, or the next technological giant ready to demand respect in the private sector?");
 }
 
 /*************************************************************************
@@ -559,7 +552,7 @@ class BackgroundScreen extends PNGRoom {
 
     this.titleText = "background";
 
-    this.aboutText = "Voluptatem mollitia dolor incidunt. Molestias et ea rerum sint nobis repellat. Non sed incidunt minus repellendus ipsam non et. Quidem ratione atque qui recusandae…";
+    this.aboutText = "Humanity is in desperate need... of itself. With many facing an incapability to simply go outside and make friends, one group of forward-thinkers has developed a new technology that may mean the end of human loneliness. Connect to The Interface: a global network of human minds, made possible by combining the capabilities of the human mind with that of vast underground fungal networks. By integrating oneself with The Interface, one will never be alone again; their thoughts, desires, and needs are inherently shared with their peers.\n\nBut how to introduce humanity to this radical step forward? Your responsibility as the leader of The Interface is to promote it to all members of the globe. But be warned - some do not look upon this solution with such favorable eyes.";
   }
 
   draw() {
@@ -585,13 +578,20 @@ class BackgroundScreen extends PNGRoom {
 
 class TourScreen extends PNGRoom {
   preload() {
-    this.textBoxWidth = (width/6)*4;
-    this.textBoxHeight = (height/6)*3; 
-
   }
 
   draw() {
     tint(palette[4]);
+    super.draw();
+  }
+}
+
+class EffectsScreen extends PNGRoom {
+  preload() {
+  }
+
+  draw() {
+    tint(palette[3]);
     super.draw();
   }
 }
