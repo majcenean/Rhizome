@@ -1,8 +1,12 @@
 CurrentState,KeyTyped,KeyCode,MouseEvent,ClickableName,MapDirection,NextState
 Background,,,,BeginGameBg,,Instructions
-Background,,,,BeginTour,,Tour
-Tour,,,,BeginGameTour,,Instructions
-Instructions,,,mouseReleased,,,DECISION_BRANDING
+Background,,,,BeginTour,,TourStart
+TourStart,,,,cl_TourStart,,Tour1
+Tour1,,,,cl_Tour1,,Tour2
+Tour2,,,,cl_Tour2,,Tour3
+Tour3,,,,cl_Tour3,,TourEnd
+TourEnd,,,,cl_TourEnd,,Instructions
+Instructions,,,,cl_Instructions,,DECISION_BRANDING
 DECISION_BRANDING,,,,cl_CHOICE_BRANDING_ORG,,CHOICE_BRANDING_ORG
 DECISION_BRANDING,,,,cl_CHOICE_BRANDING_STARTUP,,CHOICE_BRANDING_STARTUP
 DECISION_INFO,,,,cl_CHOICE_INFO_NONE,,CHOICE_INFO_NONE

@@ -1,25 +1,30 @@
 ID,Name,State,PNGFilename,Text,x,y,visible
 0,BeginTour,Background,,Show me around [begin tour],610,600,yes
 1,BeginGameBg,Background,,I've played before [start game],875,600,yes
-2,BeginGameTour,Tour,,Begin game,558,600,yes
-3,cl_CHOICE_BRANDING_ORG,DECISION_BRANDING,,Wellness Organization,975,400,yes
-4,cl_CHOICE_BRANDING_STARTUP,DECISION_BRANDING,,Silicon Startup,975,600,yes
-5,cl_CHOICE_INFO_NONE,DECISION_INFO,,Censor information,975,300,yes
-6,cl_CHOICE_INFO_TRUE,DECISION_INFO,,Release true records,975,500,yes
-7,cl_CHOICE_INFO_FALSE,DECISION_INFO,,Forge false records,975,700,yes
-8,cl_CHOICE_FALSEINFO_PAY,,,Pay off employees,975,400,yes
-9,cl_CHOICE_FALSEINFO_THREATEN,,,Threaten employees,975,600,yes
-10,cl_CHOICE_TESTING_MORE,DECISION_TESTING,,Bypass more testing,975,400,yes
-11,cl_CHOICE_TESTING_LESS,DECISION_TESTING,,Move forward with testing,975,600,yes
-12,cl_CHOICE_PRICING_EXPENSIVE,DECISION_PRICING,,"Expensive, luxury pricing",975,400,yes
-13,cl_CHOICE_PRICING_AFFORDABLE,DECISION_PRICING,,"Cheap, affordable pricing",975,650,yes
-14,cl_continue_CHOICE_BRANDING_ORG,CHOICE_BRANDING_ORG,,click to continue,1000,650,yes
-15,cl_continue_CHOICE_BRANDING_STARTUP,CHOICE_BRANDING_STARTUP,,click to continue,1000,650,yes
-16,cl_continue_CHOICE_INFO_NONE,CHOICE_INFO_NONE,,click to continue,1000,650,yes
-17,cl_continue_CHOICE_INFO_TRUE,CHOICE_INFO_TRUE,,click to continue,1000,650,yes
-19,cl_continue_CHOICE_FALSEINFO_PAY,CHOICE_FALSEINFO_PAY,,click to continue,1000,650,yes
-20,cl_continue_CHOICE_FALSEINFO_THREATEN,CHOICE_FALSEINFO_THREATEN,,click to continue,1000,650,yes
-21,cl_continue_CHOICE_TESTING_MORE,CHOICE_TESTING_MORE,,click to continue,1000,650,yes
-22,cl_continue_CHOICE_TESTING_LESS,CHOICE_TESTING_LESS,,click to continue,1000,650,yes
-23,cl_continue_CHOICE_PRICING_EXPENSIVE,CHOICE_PRICING_EXPENSIVE,,click to continue,1000,650,yes
-24,cl_continue_CHOICE_PRICING_AFFORDABLE,CHOICE_PRICING_AFFORDABLE,,click to continue,1000,650,yes
+2,cl_TourStart,TourStart,,begin tour,573,600,yes
+3,cl_Tour1,Tour1,,next >>,573,600,yes
+4,cl_Tour2,Tour2,,next >>,573,600,yes
+5,cl_Tour3,Tour3,,next >>,573,600,yes
+6,cl_TourEnd,TourEnd,,begin game,573,600,yes
+7,cl_Instructions,Instructions,,start,573,600,yes
+8,cl_CHOICE_BRANDING_ORG,DECISION_BRANDING,,Wellness organization,975,400,yes
+9,cl_CHOICE_BRANDING_STARTUP,DECISION_BRANDING,,Silicon startup,975,600,yes
+10,cl_CHOICE_INFO_NONE,DECISION_INFO,,Censor information,975,300,yes
+11,cl_CHOICE_INFO_TRUE,DECISION_INFO,,Release true records,975,450,yes
+12,cl_CHOICE_INFO_FALSE,DECISION_INFO,,Forge false records,975,600,yes
+13,cl_CHOICE_FALSEINFO_PAY,DECISION_FALSEINFO,,Pay off employees,975,400,yes
+14,cl_CHOICE_FALSEINFO_THREATEN,DECISION_FALSEINFO,,Threaten employees,975,600,yes
+15,cl_CHOICE_TESTING_MORE,DECISION_TESTING,,Bypass more testing,975,400,yes
+16,cl_CHOICE_TESTING_LESS,DECISION_TESTING,,Initiate more testing,975,600,yes
+17,cl_CHOICE_PRICING_EXPENSIVE,DECISION_PRICING,,Expensive & exclusive,975,400,yes
+19,cl_CHOICE_PRICING_AFFORDABLE,DECISION_PRICING,,Cheap & affordable,975,600,yes
+20,cl_continue_CHOICE_BRANDING_ORG,CHOICE_BRANDING_ORG,,click to continue,573,650,yes
+21,cl_continue_CHOICE_BRANDING_STARTUP,CHOICE_BRANDING_STARTUP,,click to continue,573,650,yes
+22,cl_continue_CHOICE_INFO_NONE,CHOICE_INFO_NONE,,click to continue,573,650,yes
+23,cl_continue_CHOICE_INFO_TRUE,CHOICE_INFO_TRUE,,click to continue,573,650,yes
+24,cl_continue_CHOICE_FALSEINFO_PAY,CHOICE_FALSEINFO_PAY,,click to continue,573,650,yes
+25,cl_continue_CHOICE_FALSEINFO_THREATEN,CHOICE_FALSEINFO_THREATEN,,click to continue,573,650,yes
+26,cl_continue_CHOICE_TESTING_MORE,CHOICE_TESTING_MORE,,click to continue,573,650,yes
+27,cl_continue_CHOICE_TESTING_LESS,CHOICE_TESTING_LESS,,click to continue,573,650,yes
+28,cl_continue_CHOICE_PRICING_EXPENSIVE,CHOICE_PRICING_EXPENSIVE,,click to continue,573,650,yes
+29,cl_continue_CHOICE_PRICING_AFFORDABLE,CHOICE_PRICING_AFFORDABLE,,click to continue,573,650,yes

@@ -172,15 +172,14 @@ function draw() {
  // drawCharacters();
 
   // don't draw them on these screens
-  if( adventureManager.getStateName() === "Background" ||
-      adventureManager.getStateName() === "Instructions" ||
-      adventureManager.getStateName() === "Tour" ||
+  if( adventureManager.getClassName() === "BackgroundScreen" ||
+      adventureManager.getClassName() === "InstructionScreen" || 
+      adventureManager.getClassName() === "TourScreen" ||
       adventureManager.getClassName() === "EffectsScreen" ) {
     ;
   }
   else {
     drawCharacters();
-
     // draws hover clickables for characters
     clickablesIconsManager.draw();
   }
@@ -217,16 +216,36 @@ function drawCharacters() {
 // Function Clickables
 **************************************************************************/
 function setupClickables() {
-  // Clickable Buttons
+  // Clickable buttons introduction format
   for( let i = 0; i < clickables.length; i++ ) {
     clickables[i].onHover = clickableButtonHoverNORM;
     clickables[i].onOutside = clickableButtonOnOutsideNORM;    
   }
-
-  for( let i = 3; i < clickables.length; i++ ) {
+  for( let i = 20; i < clickables.length; i++ ) {
+    clickables[i].onHover = clickableButtonHoverNORM;
+    clickables[i].onOutside = clickableButtonOnOutsideNORM;    
+  }
+  // Clickable buttons choice format
+  for( let i = 8; i < 19; i++ ) {
     clickables[i].onHover = clickableButtonHoverCHOICE;
     clickables[i].onOutside = clickableButtonOnOutsideCHOICE;    
   }
+
+  // Clickables - send to adventureManager
+  for( let i = 0; i < clickables.length; i++ ) {
+    clickables[i].onPress = clickableButtonPressed; 
+  }
+  for( let i = 0; i < clickablesIcons.length; i++ ) {
+    clickablesIcons[i].onPress = clickableButtonPressed; 
+  }
+
+  // Clickable Icons Hover
+  for( let i = 0; i < clickablesIcons.length; i++ ) {
+    clickablesIcons[i].onHover = clickableButtonHoverICON;
+    clickablesIcons[i].onPress = clickableButtonHoverEffect;
+    clickablesIcons[i].onOutside = clickableButtonOnOutsideICON;    
+  }
+
 
   // specific callbacks for each clickable
   // clickables[0].onPress = clickableButtonPressed;
@@ -241,21 +260,13 @@ function setupClickables() {
   // clickables[9].onPress = clCutTransportation;
   // clickables[10].onPress = clCutCityWages;
   // clickables[11].onPress = clCutParks;
-
-  for( let i = 0; i < clickables.length; i++ ) {
-    clickables[i].onPress = clickableButtonPressed; 
-  }
-
-  // Clickable Icons
-  for( let i = 0; i < clickablesIcons.length; i++ ) {
-    clickablesIcons[i].onHover = clickableButtonHoverICON;
-    clickablesIcons[i].onOutside = clickableButtonOnOutsideICON;    
-  }
-
-  clickablesIcons[0].onPress = clickableButtonPressed;
 }
 
 clickableButtonPressed = function() {
+  adventureManager.clickablePressed(this.name);
+}
+
+clickablePressedICON = function() {
   adventureManager.clickablePressed(this.name);
 } 
 
@@ -295,12 +306,12 @@ clickableButtonHoverICON = function() {
 clickableButtonOnOutsideCHOICE = function() {
   this.color = palette[2];
   this.stroke = palette[0];
-  this.strokeWeight = 5;
+  this.strokeWeight = 4;
   this.cornerRadius = 20;
   this.textSize = 20;
   this.textColor = palette[0];
   this.textFont = bodyFont;
-  this.width = 210;
+  this.width = 220;
   this.height = 50;
 }
 
@@ -495,9 +506,12 @@ class Character {
   draw() {
     if( this.image ) {
       push();
-      // draw the character icon
-      imageMode(CORNER);
-      // image( this.image, this.x, this.y, 110, 110);
+
+      // If on the TourScreens, draw images of the icons
+      if ( adventureManager.getClassName() === "TourScreen") {
+        imageMode(CORNER);
+        image( this.image, this.x, this.y, 110, 110);
+      }
 
       // draw anger emojis
       for( let i = 0; i < this.anger; i++ ) {
@@ -541,9 +555,24 @@ function loadAllText() {
   // ONLY call if these are ScenarioRoom
   
 // copy the array reference from adventure manager so that code is clearer
-  scenarioRooms = adventureManager.states;
+  states = adventureManager.states;
 
-  scenarioRooms[3].setText("Societies across the globe flock in curiosity towards this brand-new development. How should The Interface make its first bold steps into society? Should it represent itself as the miracle cure to all of humanity's issues, or the next technological giant ready to demand respect in the private sector?");
+  // Decision Branding
+  states[2].setText("Societies across the globe flock in curiosity towards this brand-new development. How should The Interface make its first bold steps into society? Should it represent itself as the miracle cure to all of humanity's issues, or the next technological giant ready to demand respect in the private sector?");
+  // Decision Information
+  states[5].setText("Inquiry into the methods and technologies of The Interface has increased at the behest of skeptics. How should The Interface handle the release of information? Should they be kept a secret or divulged to the world at large? Or, alternatively, should they be replaced with a decoy?");
+  // Decision False Information
+  states[8].setText("Some employees of The Interface feel uncomfortable with the fact that The Interface falsified information to the public. Some have even threatened to expose it for its little white lies. Should these employees be paid off for their silence, or threatened?");
+  // Decision Testing
+  states[11].setText("Governments across the globe want to ensure The Interface is safe for their people to participate in. Some have requested further testing before the technology is launched in their country. Should The Interface be subjected to further testing before it hits the market, or should it give in to the impatient, demanding consumers ready to buy now?");
+  // Decision Pricing
+  states[14].setText("The Interface is about to launch publically for the first time. What scale of pricing should people expect? Should it be an exclusive, pricey status symbol, or an everyman's solution?");
+  // Tour
+  states[17].setText("Hey! This tour will guide you around your decision-making desk. Let's get started!");
+  states[18].setText("This is your main decision-making screen. Memos about current happenings will appear. Using these buttons, you will make a choice on how to act.");
+  states[19].setText("These icons represent the various populations of the world and their attitudes towards you, which will change depending on how they react to your decisions. Hover over the icons in-game to learn more about each population!");
+  states[20].setText("Finally, this scale at the top represents the percentage of people worldwide who have joined The Interface. Your goal is to get as many people as possible to join! After all, who wouldn't want a cure to loneliness?");
+  states[21].setText("That's all for the tour! Have fun playing!\n\nAnd don't forget... your choices will decide the fate of humanity and all of its lonely souls!");
 }
 
 /*************************************************************************
@@ -580,13 +609,127 @@ class BackgroundScreen extends PNGRoom {
   }
 }
 
-class TourScreen extends PNGRoom {
+class InstructionScreen extends PNGRoom {
   preload() {
+    this.textBoxWidth = (width/6)*4;
+    this.textBoxHeight = (height/6)*3; 
+
+    this.aboutText = "The Interface is about to hit the market. Guide its production team ";
   }
 
   draw() {
-    tint(palette[4]);
     super.draw();
+    background(palette[2]);
+
+    push();
+    fill(palette[0]);
+    textAlign(LEFT);
+    textSize(24);
+    text(this.aboutText, width/6, (height/6)*2 + 15, this.textBoxWidth, this.textBoxHeight);
+    pop();
+  }
+}
+
+class TourScreen extends PNGRoom {
+  preload() {
+    this.interactionBox = loadImage('assets/interaction_box.png');
+    this.drawInteractX = 305;
+    this.drawInteractY = 100;
+
+    this.bodyText = "";
+
+    this.drawNoticeX = this.drawInteractX + 100;
+    this.drawNoticeY = this.drawInteractY + 100;
+    this.noticeText = "Should funds be donated to charity as part of a publicity act, or should they be invested into new research?";
+    this.noticeBox = loadImage('assets/notice_box.png');
+  }
+
+  setText(bodyText) {
+    this.bodyText = bodyText;
+    this.drawXTxt = 100 - this.textboxOffsetX;
+    this.drawYTxt = 100 - this.textboxOffsetY;
+    this.textboxOffsetX = 862/2;
+    this.textboxOffsetY = 253/2;
+  }
+
+  draw() {
+    super.draw();
+
+    // interaction box
+    image(this.interactionBox, this.drawInteractX, this.drawInteractY);
+
+    // characters
+    drawCharacters();
+
+    // text variables
+    if (adventureManager.getStateName() === "TourStart" ) {
+      // tint
+      image(tintImage, 0, 0, 1366, 768);
+
+      // draw text
+      this.drawXTxt = 1366/2 - this.textboxOffsetX;
+      this.drawYTxt = 768/2 - this.textboxOffsetY;
+    }
+    else if (adventureManager.getStateName() === "Tour1" ) {
+      // notice box
+      image(this.noticeBox, this.drawNoticeX, this.drawNoticeY);
+      // notice box text
+      push();
+      fill(palette[4]);
+      textFont(bodyFont);
+      textSize(24);
+      text(this.noticeText, this.drawNoticeX + 50, this.drawNoticeY + 100, 383, 383);
+      pop();
+
+      // tint
+      image(tintImage, 0, 0, 1366, 768);
+
+      // draw text
+      this.drawXTxt = (1366/5)*3 - this.textboxOffsetX;
+      this.drawYTxt = 768/5 - this.textboxOffsetY;
+    }
+    else if (adventureManager.getStateName() === "Tour2" ) {
+      // notice box
+      image(this.noticeBox, this.drawNoticeX, this.drawNoticeY);
+
+      // tint
+      image(tintImage, 0, 0, 1366, 768);
+
+      // draw text
+      this.drawXTxt = (1366/3)*2 - this.textboxOffsetX;
+      this.drawYTxt = 768/2 - this.textboxOffsetY;
+    }
+    else if (adventureManager.getStateName() === "Tour3" ) {
+      // notice box
+      image(this.noticeBox, this.drawNoticeX, this.drawNoticeY);
+
+      // tint
+      image(tintImage, 0, 0, 1366, 768);
+
+      // draw text
+      this.drawXTxt = 1366/2 - this.textboxOffsetX;
+      this.drawYTxt = (768/3)*2 - this.textboxOffsetY;
+    }
+    else if (adventureManager.getStateName() === "TourEnd" ) {
+      // notice box
+      image(this.noticeBox, this.drawNoticeX, this.drawNoticeY);
+
+      // tint
+      image(tintImage, 0, 0, 1366, 768);
+
+      // draw text
+      this.drawXTxt = 1366/2 - this.textboxOffsetX;
+      this.drawYTxt = 768/2 - this.textboxOffsetY;
+    }
+
+    // guiding textbox
+    image(textBox, this.drawXTxt, this.drawYTxt);
+    // guiding text
+    push();
+    fill(palette[4]);
+    textSize(26);
+    text(this.bodyText, this.drawXTxt + 31, this.drawYTxt + 40, 800, 230);
+    pop();
   }
 }
 
