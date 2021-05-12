@@ -33,18 +33,18 @@ var clickablesIcons;
 //////////////////////////////////////////
 
 // indexes into the clickable array (constants) 
-const cl_startScenario = 0;
-const cl_Start_SOCPays = 1;
-const cl_Start_CityPays = 2;
-const cl_Start_RaiseTaxes = 3;
-const cl_SOCMoves_CityPays = 4;
-const cl_SOCMoves_RaiseTaxes = 5;
-const cl_SOCMoves_BuildRival = 6;
-const cl_SOCMoves_IgnoreThem = 7;
-const cl_CityPays_CutTheArts = 8;
-const cl_CityPays_CutTransportation = 9;
-const cl_CityPays_CutCityWages = 10;
-const cl_CityPays_CutParks = 11;
+// const cl_startScenario = 0;
+// const cl_Start_SOCPays = 1;
+// const cl_Start_CityPays = 2;
+// const cl_Start_RaiseTaxes = 3;
+// const cl_SOCMoves_CityPays = 4;
+// const cl_SOCMoves_RaiseTaxes = 5;
+// const cl_SOCMoves_BuildRival = 6;
+// const cl_SOCMoves_IgnoreThem = 7;
+// const cl_CityPays_CutTheArts = 8;
+// const cl_CityPays_CutTransportation = 9;
+// const cl_CityPays_CutCityWages = 10;
+// const cl_CityPays_CutParks = 11;
 
 
 // const cl_BeginTour = 0;
@@ -84,8 +84,6 @@ const ANTI = 4;
 // const SOCExpands = 8;
 // const cityUgly = 9;
 // const workersStrike = 10;
-
-const Start = 4;
 
 
 ////////////////////////////////////////////////
@@ -246,20 +244,19 @@ function setupClickables() {
     clickablesIcons[i].onOutside = clickableButtonOnOutsideICON;    
   }
 
-
   // specific callbacks for each clickable
-  // clickables[0].onPress = clickableButtonPressed;
-  // clickables[1].onPress = clSOCPays;
-  // clickables[2].onPress = clCityPays;
-  // clickables[3].onPress = clRaiseTaxes;
-  // clickables[4].onPress = clCityPays;
-  // clickables[5].onPress = clRaiseTaxes;
-  // clickables[6].onPress = clBuildRival;
-  // clickables[7].onPress = clIgnoreThem;
-  // clickables[8].onPress = clCutArts;
-  // clickables[9].onPress = clCutTransportation;
-  // clickables[10].onPress = clCutCityWages;
-  // clickables[11].onPress = clCutParks;
+  clickables[8].onPress = cl_CHOICE_BRANDING_ORG;
+  clickables[9].onPress = cl_CHOICE_BRANDING_STARTUP;
+  clickables[10].onPress = cl_CHOICE_INFO_NONE
+  clickables[11].onPress = cl_CHOICE_INFO_TRUE
+  clickables[12].onPress = cl_CHOICE_INFO_FALSE
+  clickables[13].onPress = cl_CHOICE_FALSEINFO_PAY
+  clickables[14].onPress = cl_CHOICE_FALSEINFO_THREATEN
+  clickables[15].onPress = cl_CHOICE_TESTING_MORE
+  clickables[16].onPress = cl_CHOICE_TESTING_LESS
+  clickables[17].onPress = cl_CHOICE_PRICING_EXPENSIVE
+  clickables[18].onPress = cl_CHOICE_PRICING_AFFORDABLE
+
 }
 
 clickableButtonPressed = function() {
@@ -403,67 +400,80 @@ characterInfo[ANTI] = "Critics and other doubtful members of society who are not
 //-- specific button callbacks: these will add or subtrack anger, then
 //-- pass the clickable pressed to the adventure manager, which changes the
 //-- state. A more elegant solution would be to use a table for all of these values
-clSOCPays = function() {
-    characters[SOC].addAnger(2);
-    characters[PSYCH].subAnger(1);
-    characters[GOV].addAnger(1);
-    adventureManager.clickablePressed(this.name);
-}
-
-clCityPays = function() {
-  characters[ENTH].addAnger(1);
+cl_CHOICE_BRANDING_ORG = function() {
   characters[PSYCH].subAnger(1);
-  characters[SOC].subAnger(2);
+  characters[ENTH].addAnger(1);
   adventureManager.clickablePressed(this.name);
 }
 
-clRaiseTaxes = function() {
+cl_CHOICE_BRANDING_STARTUP = function() {
+  characters[ENTH].subAnger(1);
   characters[PSYCH].addAnger(1);
   characters[ANTI].addAnger(1);
+  adventureManager.clickablePressed(this.name);
+}
+
+cl_CHOICE_INFO_NONE = function() {
+  characters[GOV].addAnger(1);
+  characters[ENTH].subAnger(1);
+  adventureManager.clickablePressed(this.name);
+}
+
+cl_CHOICE_INFO_TRUE = function() {
+  characters[PSYCH].subAnger(1);
+  characters[ANTI].addAnger(1);
+  adventureManager.clickablePressed(this.name);
+}
+
+cl_CHOICE_INFO_FALSE = function() {
   characters[SOC].subAnger(1);
+  characters[ENTH].subAnger(1);
+  characters[GOV].subAnger(1);
+  characters[PSYCH].subAnger(1);
+  characters[ANTI].subAnger(1);
   adventureManager.clickablePressed(this.name);
 }
 
-clBuildRival = function() {
-  characters[PSYCH].addAnger(2);
-  // characters[consumer].subAnger(1);
+cl_CHOICE_FALSEINFO_PAY = function() {
+  adventureManager.clickablePressed(this.name);
+}
+
+cl_CHOICE_FALSEINFO_THREATEN = function() {
   characters[SOC].addAnger(1);
-  characters[GOV].addAnger(1);
-  adventureManager.clickablePressed(this.name);
-}
-
-clIgnoreThem = function() {
-  characters[PSYCH].addAnger(1);
-  characters[ANTI].addAnger(1);
-  characters[GOV].addAnger(1);
-  adventureManager.clickablePressed(this.name);
-}
-
-clCutArts = function() {
-  characters[ANTI].addAnger(2);
   characters[ENTH].addAnger(1);
-  adventureManager.clickablePressed(this.name);
-}
-
-clCutTransportation = function() {
-  characters[ANTI].addAnger(3);
-  characters[ENTH].addAnger(1);
-  adventureManager.clickablePressed(this.name);
-}
-
-clCutCityWages = function() {
-  characters[ENTH].addAnger(2);
   characters[GOV].addAnger(2);
-  adventureManager.clickablePressed(this.name);
-}
-
-clCutParks = function() {
-  characters[ENTH].addAnger(1);
+  characters[PSYCH].addAnger(1);
   characters[ANTI].addAnger(2);
   adventureManager.clickablePressed(this.name);
 }
 
+cl_CHOICE_TESTING_MORE = function() {
+  characters[SOC].addAnger(1);
+  characters[PSYCH].subAnger(1);
+  adventureManager.clickablePressed(this.name);
+}
 
+cl_CHOICE_TESTING_LESS = function() {
+  characters[SOC].subAnger(1);
+  characters[PSYCH].addAnger(1);
+  adventureManager.clickablePressed(this.name);
+}
+
+cl_CHOICE_PRICING_EXPENSIVE = function() {
+  characters[SOC].addAnger(1);
+  characters[PSYCH].subAnger(1);
+  characters[ANTI].addAnger(1);
+  adventureManager.clickablePressed(this.name);
+}
+
+cl_CHOICE_PRICING_AFFORDABLE = function() {
+  characters[SOC].subAnger(1);
+  characters[ENTH].addAnger(1);
+  characters[GOV].addAnger(1);
+  characters[PSYCH].addAnger(1);
+  characters[ANTI].subAnger(1);
+  adventureManager.clickablePressed(this.name);
+}
 
 
 /*************************************************************************
@@ -484,8 +494,6 @@ function allocateCharacters() {
   }
 
   // Default Anger
-  characters[GOV].addAnger(1);
-  characters[PSYCH].addAnger(2);
   characters[ANTI].addAnger(1);
 }
 
@@ -557,16 +565,41 @@ function loadAllText() {
 // copy the array reference from adventure manager so that code is clearer
   states = adventureManager.states;
 
-  // Decision Branding
+  // BRANDING
+  // Decision 
   states[2].setText("Societies across the globe flock in curiosity towards this brand-new development. How should The Interface make its first bold steps into society? Should it represent itself as the miracle cure to all of humanity's issues, or the next technological giant ready to demand respect in the private sector?");
-  // Decision Information
+  // Choices
+  states[3].setText("Mental health professionals worldwide are excited by the promises of a new wellness organization seeking a cure for loneliness…\n\nTech enthusiasts are disappointed that the organization will not focus itself on the pursuit of new gadgets…\n\nSkeptics accuse the startup of corporate greed.");
+  states[4].setText("A new startup promises solutions to humanity’s pervasive loneliness problem, enticing the tech world… \n\nMental health professionals are disappointed that the startup will not prioritize bettering their patients, but rather their technology...");
+
+  // INFO SHARING
+  // Decision
   states[5].setText("Inquiry into the methods and technologies of The Interface has increased at the behest of skeptics. How should The Interface handle the release of information? Should they be kept a secret or divulged to the world at large? Or, alternatively, should they be replaced with a decoy?");
-  // Decision False Information
-  states[8].setText("Some employees of The Interface feel uncomfortable with the fact that The Interface falsified information to the public. Some have even threatened to expose it for its little white lies. Should these employees be paid off for their silence, or threatened?");
-  // Decision Testing
+  // Choices
+  states[6].setText("");
+  states[7].setText("");
+
+  // FALSE INFORMATION
+  // Decision
+  states[8].setText("The false info has been received very well by the public, it astounds and amazes… but some employees of The Interface have begun to feel uncomfortable with the fact that they falsified information to the public. Some have even threatened to expose the little white lies. Should these employees be paid off for their silence, or threatened?");
+  // Choices
+  states[9].setText("");
+  states[10].setText("");
+  
+  // TESTING
+  // Decision
   states[11].setText("Governments across the globe want to ensure The Interface is safe for their people to participate in. Some have requested further testing before the technology is launched in their country. Should The Interface be subjected to further testing before it hits the market, or should it give in to the impatient, demanding consumers ready to buy now?");
-  // Decision Pricing
+  // Choices
+  states[12].setText("");
+  states[13].setText("");
+  
+  // PRICING
+  // Decision
   states[14].setText("The Interface is about to launch publically for the first time. What scale of pricing should people expect? Should it be an exclusive, pricey status symbol, or an everyman's solution?");
+  // Choices
+  states[15].setText("");
+  states[16].setText("");
+
   // Tour
   states[17].setText("Hey! This tour will guide you around your decision-making desk. Let's get started!");
   states[18].setText("This is your main decision-making screen. Memos about current happenings will appear. Using these buttons, you will make a choice on how to act.");
@@ -614,7 +647,7 @@ class InstructionScreen extends PNGRoom {
     this.textBoxWidth = (width/6)*4;
     this.textBoxHeight = (height/6)*3; 
 
-    this.aboutText = "The Interface is about to hit the market. Guide its production team ";
+    this.aboutText = "The Interface is about to hit the market. Guide its production team.";
   }
 
   draw() {
@@ -642,6 +675,12 @@ class TourScreen extends PNGRoom {
     this.drawNoticeY = this.drawInteractY + 100;
     this.noticeText = "Should funds be donated to charity as part of a publicity act, or should they be invested into new research?";
     this.noticeBox = loadImage('assets/notice_box.png');
+
+    this.optionsImage = loadImage('assets/options.png');
+
+    this.tintImage1 = loadImage("assets/tint_1.png");
+    this.tintImage2 = loadImage("assets/tint_2.png");
+    this.tintImage3 = loadImage("assets/tint_3.png");
   }
 
   setText(bodyText) {
@@ -681,8 +720,11 @@ class TourScreen extends PNGRoom {
       text(this.noticeText, this.drawNoticeX + 50, this.drawNoticeY + 100, 383, 383);
       pop();
 
+      // options
+      image(this.optionsImage, this.drawNoticeX + 550, this.drawNoticeY + 50);
+
       // tint
-      image(tintImage, 0, 0, 1366, 768);
+      image(this.tintImage1, 0, 0, 1366, 768);
 
       // draw text
       this.drawXTxt = (1366/5)*3 - this.textboxOffsetX;
@@ -693,7 +735,7 @@ class TourScreen extends PNGRoom {
       image(this.noticeBox, this.drawNoticeX, this.drawNoticeY);
 
       // tint
-      image(tintImage, 0, 0, 1366, 768);
+      image(this.tintImage2, 0, 0, 1366, 768);
 
       // draw text
       this.drawXTxt = (1366/3)*2 - this.textboxOffsetX;
@@ -704,7 +746,7 @@ class TourScreen extends PNGRoom {
       image(this.noticeBox, this.drawNoticeX, this.drawNoticeY);
 
       // tint
-      image(tintImage, 0, 0, 1366, 768);
+      image(this.tintImage3, 0, 0, 1366, 768);
 
       // draw text
       this.drawXTxt = 1366/2 - this.textboxOffsetX;
@@ -735,11 +777,23 @@ class TourScreen extends PNGRoom {
 
 class EffectsScreen extends PNGRoom {
   preload() {
+    this.bodyText = "";
+  }
+
+  setText(bodyText) {
+    this.bodyText = bodyText;
+    this.drawXTxt = 768;
+    this.drawYTxt = 220;
   }
 
   draw() {
-    tint(palette[3]);
     super.draw();
+
+    push();
+    fill(palette[0]);
+    textSize(26);
+    text(this.bodyText, this.drawXTxt, this.drawYTxt, 455, 440);
+    pop();
   }
 }
 
