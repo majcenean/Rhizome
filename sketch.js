@@ -4,10 +4,10 @@
     May 13, 2021
 
     Overview:
-    
+    The game consists of multiple decisions that one must make in terms of how the company that owns The Interface will function. There are ethical and economical dilemmas involved in this decision-making. The user’s decisions affect both public opinion (opinion that the aforementioned populations have of the company) as well as the amount of the world’s overall population that has integrated into The Interface. The choices the player makes and the scores they affect will decide which of the six possible endings they get at the end of the game.
     ---------------------------------------------------------------------
     Notes: 
-     (1) 
+     (1) The mushroom model is loaded in preload() because if loaded as a variable specific to the state, the game glitches out and breaks.
 **************************************************************************/
 
 
@@ -84,6 +84,9 @@ let bodyFont;
 var mushCanvas;
 var mushSize = 450;
 
+// Sfx
+var SFXclick;
+
 /*************************************************************************
 // Function preload
 **************************************************************************/
@@ -101,6 +104,9 @@ function preload() {
 
   // Model
   mushModel = loadModel('assets/mushroom.obj', true);
+
+  // Sfx
+  SFXclick = loadSound('assets/sfx/beep.mp3');
 
   // Integration Images
   int[0] = loadImage("assets/int/integration_0.png");
@@ -264,6 +270,7 @@ function setupClickables() {
 }
 
 clickableButtonPressed = function() {
+  SFXclick.play();
   adventureManager.clickablePressed(this.name);
 }
 
