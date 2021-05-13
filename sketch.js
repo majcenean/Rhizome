@@ -15,56 +15,29 @@
 // Global variables
 **************************************************************************/
 
-// adventure manager global  
+// adventure manager global   
 var adventureManager;
 
-// p5.play
-var playerSprite;
+// p5.play 
+var playerSprite; 
 var playerAnimation;
 
-// Clickables: the manager class
-var clickablesManager;    // the manager class
-var clickables;           // an array of clickable objects
-var clickablesIconsManager;
+// Clickables: the manager class 
+var clickablesManager;    // the manager class 
+var clickables;           // an array of clickable objects 
+var clickablesIconsManager; 
 var clickablesIcons;
-
-
 
 //////////////////////////////////////////
 
-// indexes into the clickable array (constants) 
-// const cl_startScenario = 0;
-// const cl_Start_SOCPays = 1;
-// const cl_Start_CityPays = 2;
-// const cl_Start_RaiseTaxes = 3;
-// const cl_SOCMoves_CityPays = 4;
-// const cl_SOCMoves_RaiseTaxes = 5;
-// const cl_SOCMoves_BuildRival = 6;
-// const cl_SOCMoves_IgnoreThem = 7;
-// const cl_CityPays_CutTheArts = 8;
-// const cl_CityPays_CutTransportation = 9;
-// const cl_CityPays_CutCityWages = 10;
-// const cl_CityPays_CutParks = 11;
-
-
-// const cl_BeginTour = 0;
-// const cl_BeginGameBg = 1;
-// const cl_BeginGameTour = 2;
-// const cl_SOC = 3;
-// const cl_ENTH = 4;
-// const cl_GOV = 5;
-// const cl_PSYCH = 6;
-// const cl_ANTI = 7;
-
-
-// anger emojis
-var angerImage;   // anger emoji
+// anger emojis 
+var angerImage;   // anger emoji 
 var maxAnger = 5;
 
-// character arrays
-var characters = [];        // array of characters
-var characterImages = [];
-var characterInfo = [];
+// character arrays 
+var characters = [];        // array of characters 
+var characterImages = []; 
+var characterInfo = []; 
 var characterNames = [];
 
 // characters
@@ -73,23 +46,23 @@ const ENTH = 1;
 const GOV = 2;
 const PSYCH = 3;
 const ANTI = 4;
-// const consumer = 5;
 
-// // room indices - look at adventureManager
-// const startScreen = 3;
-// const SOCMovesScreen = 4;
-// const cityPaysScreen = 5;
-// const raisedTaxesScreen = 6;
-// const rivalCompanyScreen = 7;
-// const SOCExpands = 8;
-// const cityUgly = 9;
-// const workersStrike = 10;
-
+// choices tracking 
+var v_CHOICE_BRANDING_ORG = false; 
+var v_CHOICE_BRANDING_STARTUP = false; 
+var v_CHOICE_INFO_NONE = false; 
+var v_CHOICE_INFO_TRUE = false; 
+var v_DECISION_FALSEINFO = false; 
+var v_CHOICE_FALSEINFO_PAY = false; 
+var v_CHOICE_FALSEINFO_THREATEN = false; 
+var v_CHOICE_TESTING_MORE = false; 
+var v_CHOICE_TESTING_LESS = false; 
+var v_CHOICE_PRICING_EXPENSIVE = false; 
+var v_CHOICE_PRICING_AFFORDABLE = false;
 
 ////////////////////////////////////////////////
 
-
-// Style
+// Style 
 var palette = [];
 palette[0] = '#F2F4ED';
 palette[1] = '#EBF49A';
@@ -98,10 +71,14 @@ palette[3] = '#9EA734';
 palette[4] = '#7B7F21';
 palette[5] = '#42422C';
 
+// Integration Images
+var int = []; 
+var integration = 0;
+var intBorder;
+
 // Fonts
 let titleFont;
 let bodyFont;
-
 
 /*************************************************************************
 // Function preload
@@ -117,6 +94,20 @@ function preload() {
   tintImage = loadImage("assets/tint.png");
   textBox = loadImage("assets/textbox.png");
   angerImage = loadImage("assets/anger_emoji.png");
+
+  // Integration Images
+  int[0] = loadImage("assets/int/integration_0.png");
+  int[1] = loadImage("assets/int/integration_1.png");
+  int[2] = loadImage("assets/int/integration_2.png");
+  int[3] = loadImage("assets/int/integration_3.png");
+  int[4] = loadImage("assets/int/integration_4.png");
+  int[5] = loadImage("assets/int/integration_5.png");
+  int[6] = loadImage("assets/int/integration_6.png");
+  int[7] = loadImage("assets/int/integration_7.png");
+  int[8] = loadImage("assets/int/integration_8.png");
+  int[9] = loadImage("assets/int/integration_9.png");
+  int[10] = loadImage("assets/int/integration_10.png");
+  intBorder = loadImage("assets/int/border.png");
 
   // Characters
   allocateCharacters();
@@ -167,19 +158,22 @@ function draw() {
   // draws background rooms and handles movement from one to another
   adventureManager.draw();
 
- // drawCharacters();
-
   // don't draw them on these screens
   if( adventureManager.getClassName() === "BackgroundScreen" ||
       adventureManager.getClassName() === "InstructionScreen" || 
       adventureManager.getClassName() === "TourScreen" ||
-      adventureManager.getClassName() === "EffectsScreen" ) {
+      adventureManager.getClassName() === "EffectsScreen" ||
+      adventureManager.getClassName() === "EndingScreen" ) {
     ;
   }
   else {
+    // draws anger for characters
     drawCharacters();
     // draws hover clickables for characters
     clickablesIconsManager.draw();
+
+    // draws integration top of screen
+    drawIntegration();
   }
   
   // draw the p5.clickables, in front of the mazes but behind the sprites 
@@ -204,14 +198,8 @@ function mouseReleased() {
   adventureManager.mouseReleased();
 }
 
-function drawCharacters() {
-  for( let i = 0; i < characters.length; i++ ) {
-    characters[i].draw();
-  }
-}
-
 /*************************************************************************
-// Function Clickables
+// Functions for Clickables
 **************************************************************************/
 function setupClickables() {
   // Clickable buttons introduction format
@@ -256,7 +244,13 @@ function setupClickables() {
   clickables[16].onPress = cl_CHOICE_TESTING_LESS
   clickables[17].onPress = cl_CHOICE_PRICING_EXPENSIVE
   clickables[18].onPress = cl_CHOICE_PRICING_AFFORDABLE
-
+  clickables[29].onPress = cl_continue_toEnding;
+  clickables[30].onPress = cl_restart;
+  clickables[31].onPress = cl_restart;
+  clickables[32].onPress = cl_restart;
+  clickables[33].onPress = cl_restart;
+  clickables[34].onPress = cl_restart;
+  clickables[35].onPress = cl_restart;
 }
 
 clickableButtonPressed = function() {
@@ -392,17 +386,18 @@ characterInfo[PSYCH] = "The counselors, psychologists, medics, and analysts of h
 characterInfo[ANTI] = "Critics and other doubtful members of society who are not convinced that The Interface is necessarily a positive addition to humanity's toolbox. Instead of technological solutions, they say, we should pursue the natural solutions of community building and a reduced workday.";
 
 
-
-
 /*************************************************************************
 // Clickables callbacks
 **************************************************************************/
 //-- specific button callbacks: these will add or subtrack anger, then
 //-- pass the clickable pressed to the adventure manager, which changes the
 //-- state. A more elegant solution would be to use a table for all of these values
+
 cl_CHOICE_BRANDING_ORG = function() {
   characters[PSYCH].subAnger(1);
   characters[ENTH].addAnger(1);
+  v_CHOICE_BRANDING_ORG = true;
+  addIntegration(2);
   adventureManager.clickablePressed(this.name);
 }
 
@@ -410,18 +405,24 @@ cl_CHOICE_BRANDING_STARTUP = function() {
   characters[ENTH].subAnger(1);
   characters[PSYCH].addAnger(1);
   characters[ANTI].addAnger(1);
+  v_CHOICE_BRANDING_STARTUP = true;
+  addIntegration(2);
   adventureManager.clickablePressed(this.name);
 }
 
 cl_CHOICE_INFO_NONE = function() {
   characters[GOV].addAnger(1);
   characters[ENTH].subAnger(1);
+  v_CHOICE_INFO_NONE = true;
+  addIntegration(0.5);
   adventureManager.clickablePressed(this.name);
 }
 
 cl_CHOICE_INFO_TRUE = function() {
   characters[PSYCH].subAnger(1);
   characters[ANTI].addAnger(1);
+  v_CHOICE_INFO_TRUE = true;
+  addIntegration(1);
   adventureManager.clickablePressed(this.name);
 }
 
@@ -431,10 +432,14 @@ cl_CHOICE_INFO_FALSE = function() {
   characters[GOV].subAnger(1);
   characters[PSYCH].subAnger(1);
   characters[ANTI].subAnger(1);
+  v_DECISION_FALSEINFO = true;
+  addIntegration(3.5);
   adventureManager.clickablePressed(this.name);
 }
 
 cl_CHOICE_FALSEINFO_PAY = function() {
+  v_CHOICE_FALSEINFO_PAY = true;
+  addIntegration(1);
   adventureManager.clickablePressed(this.name);
 }
 
@@ -444,18 +449,23 @@ cl_CHOICE_FALSEINFO_THREATEN = function() {
   characters[GOV].addAnger(2);
   characters[PSYCH].addAnger(1);
   characters[ANTI].addAnger(2);
+  v_CHOICE_FALSEINFO_THREATEN = true;
   adventureManager.clickablePressed(this.name);
 }
 
 cl_CHOICE_TESTING_MORE = function() {
   characters[SOC].addAnger(1);
   characters[PSYCH].subAnger(1);
+  v_CHOICE_TESTING_MORE = true;
+  addIntegration(1);
   adventureManager.clickablePressed(this.name);
 }
 
 cl_CHOICE_TESTING_LESS = function() {
   characters[SOC].subAnger(1);
   characters[PSYCH].addAnger(1);
+  v_CHOICE_TESTING_LESS = true;
+  addIntegration(2);
   adventureManager.clickablePressed(this.name);
 }
 
@@ -463,6 +473,8 @@ cl_CHOICE_PRICING_EXPENSIVE = function() {
   characters[SOC].addAnger(1);
   characters[PSYCH].subAnger(1);
   characters[ANTI].addAnger(1);
+  v_CHOICE_PRICING_EXPENSIVE = true;
+  addIntegration(0.5);
   adventureManager.clickablePressed(this.name);
 }
 
@@ -472,13 +484,119 @@ cl_CHOICE_PRICING_AFFORDABLE = function() {
   characters[GOV].addAnger(1);
   characters[PSYCH].addAnger(1);
   characters[ANTI].subAnger(1);
+  v_CHOICE_PRICING_AFFORDABLE = true;
+  addIntegration(3);
   adventureManager.clickablePressed(this.name);
+}
+
+cl_continue_toEnding = function() {
+  // Hivemind Ending
+  if (v_DECISION_FALSEINFO === true &&
+      v_CHOICE_FALSEINFO_PAY === true &&
+      v_CHOICE_TESTING_LESS === true && 
+      v_CHOICE_PRICING_AFFORDABLE === true &&
+      integration >= 7) {
+    adventureManager.changeState('Ending1');
+  }
+  // Goodguy Ending
+  else if (v_CHOICE_BRANDING_ORG === true &&
+      v_CHOICE_INFO_TRUE === true &&
+      v_CHOICE_TESTING_MORE === true &&
+      v_CHOICE_PRICING_AFFORDABLE === true &&
+      characters[SOC].getAnger() <= 2) {
+    adventureManager.changeState('Ending2');
+  }
+  // Revolt Ending
+  else if (v_CHOICE_BRANDING_STARTUP === true &&
+      v_CHOICE_FALSEINFO_THREATEN === true &&
+      v_CHOICE_TESTING_LESS === true &&
+      v_CHOICE_PRICING_EXPENSIVE === true &&
+      characters[ANTI].getAnger() >= 2) {
+    adventureManager.changeState('Ending3');
+  }
+  // Dictator Ending
+  else if (v_CHOICE_BRANDING_STARTUP === true &&
+      v_CHOICE_INFO_NONE === true &&
+      v_CHOICE_TESTING_MORE === true &&
+      v_CHOICE_PRICING_EXPENSIVE === true) {
+    adventureManager.changeState('Ending4');
+  }
+  // Rich Solution Ending
+  else if (v_CHOICE_BRANDING_STARTUP === true &&
+      v_CHOICE_INFO_TRUE === true &&
+      v_CHOICE_TESTING_MORE  === true &&
+      v_CHOICE_PRICING_EXPENSIVE === true &&
+      integration <= 7) {
+    adventureManager.changeState('Ending5');
+  }
+  // None of these endings
+  else {
+    adventureManager.changeState('Ending6');
+  }
+}
+
+cl_restart = function() {
+  window.location.href = "."
+}
+
+/*************************************************************************
+// Integration
+**************************************************************************/
+function drawIntegration() {
+  if (integration <= 0) {
+    drawIntegrationImage(0);
+  }
+  else if (integration <= 1) {
+    drawIntegrationImage(1);
+  }
+  else if (integration <= 2) {
+    drawIntegrationImage(2);
+  }
+  else if (integration <= 3) {
+    drawIntegrationImage(3);
+  }
+  else if (integration <= 4) {
+    drawIntegrationImage(4);
+  }
+  else if (integration <= 5) {
+    drawIntegrationImage(5);
+  }
+  else if (integration <= 6) {
+    drawIntegrationImage(6);
+  }
+  else if (integration <= 7) {
+    drawIntegrationImage(7);
+  }
+  else if (integration <= 8) {
+    drawIntegrationImage(8);
+  }
+  else if (integration <= 9) {
+    drawIntegrationImage(9);
+  }
+  else if (integration <= 10) {
+    drawIntegrationImage(10);
+  }
+}
+
+function drawIntegrationImage(x) {
+  image(this.int[x], 0, 20, 1366, 61);
+  image(this.intBorder, 0, 0, 1366, 61);
+}
+
+function addIntegration(x) {
+  integration = integration + x;
 }
 
 
 /*************************************************************************
 // Characters
 **************************************************************************/
+function drawCharacters() {
+  for( let i = 0; i < characters.length; i++ ) {
+    characters[i].draw();
+  }
+}
+
 function allocateCharacters() {
   // load the images first
   characterImages[SOC] = loadImage("assets/icon/soc_l.png");
@@ -560,10 +678,13 @@ class Character {
 // the elegant way would be to load from an array
 function loadAllText() {
   // go through all states and setup text
-  // ONLY call if these are ScenarioRoom
   
 // copy the array reference from adventure manager so that code is clearer
   states = adventureManager.states;
+
+  // BG and INTRODUCTION
+  states[0].setText("Humanity is in desperate need... of itself. With many facing an incapability to simply go outside and make friends, one group of forward-thinkers has developed a new technology that may mean the end of human loneliness. Connect to The Interface: a global network of human minds, made possible by combining the capabilities of the human mind with that of vast underground fungal networks. By integrating oneself with The Interface, one will never be alone again; their thoughts, desires, and needs are inherently shared with their peers.\n\nBut how to introduce humanity to this radical step forward? Your responsibility as the leader of The Interface is to promote it to all members of the globe. But be warned - some do not look upon this solution with such favorable eyes.");
+  states[1].setText("The life-changing interface is about to hit the market for the first time. Handle its publicity and guide it...");
 
   // BRANDING
   // Decision 
@@ -603,9 +724,18 @@ function loadAllText() {
   // Tour
   states[17].setText("Hey! This tour will guide you around your decision-making desk. Let's get started!");
   states[18].setText("This is your main decision-making screen. Memos about current happenings will appear. Using these buttons, you will make a choice on how to act.");
-  states[19].setText("These icons represent the various populations of the world and their attitudes towards you, which will change depending on how they react to your decisions. Hover over the icons in-game to learn more about each population!");
+  states[19].setText("These icons represent the various populations of the world and their attitudes towards you, which will change depending on how they react to your decisions. When a population is upset with a decision you have made, they will gain another anger symbol next to their icon. Try to keep everyone’s anger to a minimum! Hover over the icons in-game to learn more about each population.");
   states[20].setText("Finally, this scale at the top represents the percentage of people worldwide who have joined The Interface. Your goal is to get as many people as possible to join! After all, who wouldn't want a cure to loneliness?");
   states[21].setText("That's all for the tour! Have fun playing!\n\nAnd don't forget... your choices will decide the fate of humanity and all of its lonely souls!");
+
+  // Endings
+  states[22].setText('heyyyyy this is the ending');
+  states[23].setText('ending1');
+  states[24].setText('ending2');
+  states[25].setText('ending3');
+  states[26].setText('ending4');
+  states[27].setText('ending5');
+  states[28].setText('ending6');
 }
 
 /*************************************************************************
@@ -617,8 +747,11 @@ class BackgroundScreen extends PNGRoom {
     this.textBoxHeight = (height/6)*3; 
 
     this.titleText = "background";
+    this.bodyText = "";
+  }
 
-    this.aboutText = "Humanity is in desperate need... of itself. With many facing an incapability to simply go outside and make friends, one group of forward-thinkers has developed a new technology that may mean the end of human loneliness. Connect to The Interface: a global network of human minds, made possible by combining the capabilities of the human mind with that of vast underground fungal networks. By integrating oneself with The Interface, one will never be alone again; their thoughts, desires, and needs are inherently shared with their peers.\n\nBut how to introduce humanity to this radical step forward? Your responsibility as the leader of The Interface is to promote it to all members of the globe. But be warned - some do not look upon this solution with such favorable eyes.";
+  setText(bodyText) {
+    this.bodyText = bodyText;
   }
 
   draw() {
@@ -637,7 +770,7 @@ class BackgroundScreen extends PNGRoom {
     fill(palette[0]);
     textAlign(LEFT);
     textSize(24);
-    text(this.aboutText, width/6, (height/6)*2 + 15, this.textBoxWidth, this.textBoxHeight);
+    text(this.bodyText, width/6, (height/6)*2 + 15, this.textBoxWidth, this.textBoxHeight);
     pop();
   }
 }
@@ -646,8 +779,11 @@ class InstructionScreen extends PNGRoom {
   preload() {
     this.textBoxWidth = (width/6)*4;
     this.textBoxHeight = (height/6)*3; 
+    this.bodyText = "";
+  }
 
-    this.aboutText = "The Interface is about to hit the market. Guide its production team.";
+  setText(bodyText) {
+    this.bodyText = bodyText;
   }
 
   draw() {
@@ -658,7 +794,7 @@ class InstructionScreen extends PNGRoom {
     fill(palette[0]);
     textAlign(LEFT);
     textSize(24);
-    text(this.aboutText, width/6, (height/6)*2 + 15, this.textBoxWidth, this.textBoxHeight);
+    text(this.bodyText, width/6, (height/6)*2 + 15, this.textBoxWidth, this.textBoxHeight);
     pop();
   }
 }
@@ -699,6 +835,9 @@ class TourScreen extends PNGRoom {
 
     // characters
     drawCharacters();
+
+    // integration
+    drawIntegration();
 
     // text variables
     if (adventureManager.getStateName() === "TourStart" ) {
@@ -837,3 +976,28 @@ class ScenarioRoom extends PNGRoom {
   }
 }
 
+class EndingScreen extends PNGRoom {
+  preload() {
+    this.textBoxWidth = (width/6)*4;
+    this.textBoxHeight = (height/6)*3; 
+    this.bodyText = "";
+  }
+
+  setText(bodyText) {
+    this.bodyText = bodyText;
+    this.drawXTxt = 768;
+    this.drawYTxt = 220;
+  }
+
+  draw() {
+    super.draw();
+    background(palette[2]);
+
+    push();
+    fill(palette[0]);
+    textSize(30);
+    textAlign(CENTER);
+    text(this.bodyText, width/6, (height/6)*2 + 15, this.textBoxWidth, this.textBoxHeight);
+    pop();
+  }
+}

@@ -28,3 +28,10 @@ ID,Name,State,PNGFilename,Text,x,y,visible
 26,cl_continue_CHOICE_TESTING_LESS,CHOICE_TESTING_LESS,,click to continue,860,580,yes
 27,cl_continue_CHOICE_PRICING_EXPENSIVE,CHOICE_PRICING_EXPENSIVE,,click to continue,860,580,yes
 28,cl_continue_CHOICE_PRICING_AFFORDABLE,CHOICE_PRICING_AFFORDABLE,,click to continue,860,580,yes
+29,cl_continue_toEnding,Ending,,click to continue,573,600,yes
+30,cl_restart1,Ending1,,restart game,573,650,yes
+31,cl_restart2,Ending2,,restart game,573,650,yes
+32,cl_restart3,Ending3,,restart game,573,650,yes
+33,cl_restart4,Ending4,,restart game,573,650,yes
+34,cl_restart5,Ending5,,restart game,573,650,yes
+35,cl_restart6,Ending6,,restart game,573,650,yes

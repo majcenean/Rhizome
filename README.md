@@ -13,6 +13,41 @@ Hosted currently at https://xarts.usfca.edu/~mrjenkins/art385/project3/
 
 
 ### Technical Details
+##### how to get each ending
+Hivemind Ending:
+* Brand as an organization
+* Use false information, and pay employees off.
+* Do less testing.
+* Make it affordable.
+* Get integration to above 70%.
+
+Goodguy Ending:
+* Brand as an organization.
+* Use true information.
+* Do more testing.
+* Make it affordable.
+
+Revolt Ending:
+* Brand as a startup.
+* Use false information, and threaten employees.
+* Do less testing.
+* Make it expensive.
+* Get Skeptics' anger to 2 or over.
+
+Dictator Ending:
+* Brand as a startup.
+* Censor information.
+* Do more testing.
+* Make it expensive.
+
+Rich Solution Ending:
+* Brand as a startup.
+* Use true information.
+* Do more testing.
+* Make it expensive.
+* Get integration to under 70%.
+
+
 ##### assets
 
 
