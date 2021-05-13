@@ -6,7 +6,7 @@
     <title>SPEC TECH</title>
     <style>
 
-    	@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+    	@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;900&display=swap');
 
 		html {
 			box-sizing: border-box;
@@ -20,10 +20,32 @@
 			padding: 0; 
 			margin: 0;
 			text-align: center;
-			background-color: #B5C140;
+			background-color: #7B7F21;
 			user-select: none;
 			color: #F2F4ED;
 			font-family: 'Raleway', sans-serif;
+			overflow: hidden;
+		}
+
+				/* width */
+		::-webkit-scrollbar {
+		  width: 10px;
+		  border-radius: 5px;
+		}
+
+		/* Track */
+		::-webkit-scrollbar-track {
+		  background: #E9F499;
+		}
+
+		/* Handle */
+		::-webkit-scrollbar-thumb {
+		  background: #7B7F2140;
+		}
+
+		/* Handle on hover */
+		::-webkit-scrollbar-thumb:hover {
+		  background: #7B7F2170;
 		}
 
 		p {
@@ -38,67 +60,191 @@
 			font-size: 22px;
 		}
 
-		iframe {
-			display: block;
-			margin: none;
-			border: none;
-			border-radius: 0px;
-			position: absolute;
-			width: 1366px;
-			height: 768px;
-			z-index: 0;
-		}
-
 		header {
-			display: block;
+			position: absolute;
+			left: 12%;
+			top: 15%;
 			margin: auto;
 			text-align: center;
-			width: 1366px;
-			height: 80px;
-			z-index: 15;
+			width: 300px;
+			height: 100px;
+			z-index: 10;
 		}
 
-		footer {
-			position: fixed;
-			bottom: 0;
-			width: 100%;
-			height: 60px;
-			font-size: 12px;
-			text-align: center;
+		#buttons {
+			position: absolute;
+			left: 15%;
+			top: 35%;
+			z-index: 20;
 		}
 
-		#frame {
+		.button {
+			width: 200px;
+			height: 30px;
+			border-radius: 15px;
+			background-color: #7B7F2140;
+			font-weight: 900;
+			transition: 0.2s;
+			margin-top: 100px;
+		}
+
+		.button:hover {
+			letter-spacing: 3px;
+			background-color: #7B7F2170;
+		}
+
+		.button img {
+			position: absolute;
+			margin-left: -110px;
+			margin-top: -40px;
+		}
+
+		.button a {
+			text-decoration: none;
+		}
+
+		.button p {
+			padding-top: 5px;
+		}
+
+		#bg {
+			position: absolute;
+			width: 105%;
+			height: 105%;
+			background-image: url('assets/title_bg.png');
+			background-repeat: no-repeat;
+			background-size: 110%, 110%;
+			background-position: -50px, 0px;
+			z-index: 5;
+		}
+
+		#animating {
 			position: absolute;
 			width: 100%;
 			height: 100%;
-			z-index: 10;
-			margin-top: -20px;
+			z-index: 0;
 		}
+
+		#animating img {
+			position: absolute;
+		}
+
+		.circle1 {
+			right: -10%;
+			bottom: -45%;
+			animation: bob 9s ease-in-out infinite alternate;
+		}
+
+		.squiggle1 {
+			top: -5%;
+			right: 25%;
+			animation: sbobb 8s ease-in infinite alternate;
+		}
+
+		.squiggle2 {
+			bottom: -25%;
+			right: 45%;
+			position: absolute;
+			animation: sboba 3s ease-in infinite alternate;
+		}
+
+		.ex1 {
+			right: 5%;
+			top: 10%;
+			animation: turn 5s ease-in infinite alternate;
+		}
+
+		.oh1 {
+			right: 8%;
+			top: 25%;
+			animation: bob 4s ease-in infinite alternate;
+		}
+
+		.ex2 {
+			right: 15%;
+			top: 55%;
+			animation: turn 7s ease-in infinite alternate;
+		}
+
+		.oh2 {
+			right: 20%;
+			top: 75%;
+			animation: bob 6s ease-in infinite alternate;
+		}
+
+		@keyframes turn {
+		  from {
+		  	transform: rotate(360deg);
+		  }
+		  to {
+		  	transform: rotate(-360deg);
+		  }
+		}
+
+		@keyframes bob {
+		  from {
+		  	transform: translateY(10px);
+		  }
+		  to {
+		  	transform: translateY(-20px);
+		  }
+		}
+
+		@keyframes sboba {
+		  from {
+		  	transform: translateY(100px);
+		  }
+		  to {
+		  	transform: translateY(-150px);
+		  }
+		}
+
+		@keyframes sbobb {
+		  from {
+		  	transform: translateY(-70px);
+		  }
+		  to {
+		  	transform: translateY(100px);
+		  }
+		}
+
     </style>
-    <script src="lib/p5.js"></script>
-    <script src="lib/p5.sound.js"></script>
-    <script src="lib/p5.play.js"></script>
-    <script src="lib/p5.timer.js"></script>
-    <script src="lib/p5.clickable.js"></script>
-    <script src="lib/p5.2DAdventure.js"></script>
-    <link rel="shortcut icon" href="assets/favicon.png" />
+    <link rel="shortcut icon" href="assets/favicon.png">
   </head>
 
-<header>
-	<img src="assets/header.png" alt="header mushrooms decoration" draggable="false">
-</header>
-
   <body>
-  	    <div id="frame">
-  	    	<img src="assets/frame.png" alt="decorative frame" draggable="false">
-  	    </div>
+	<header>
+		<img src="assets/title.png">
+	</header>
 
-    	<script src="sketch.js" style="display: block;"></script>
 
-		<footer>
-			<p>RHIZOME - 2021 - MAJ JENKINS</p>
-		</footer>
+	<div id="buttons">
+		<div class="button">
+			<a href="video.html">
+				<img src="assets/buttondeco.png">
+				<p>START</p>
+			</a>
+		</div>
+		<div class="button">
+			<a href="about.html">
+				<img src="assets/buttondeco.png">
+				<p>ABOUT</p>
+			</a>
+		</div>
+	</div>
 
-    </div>
+	<img src="assets/deco/squiggle.png" class="squiggle2">
+
+	<div id="bg"></div>
+
+	<div id="animating">
+		<img src="assets/deco/circle.png" class="circle1">
+		<img src="assets/deco/squiggle.png" class="squiggle1">
+		<img src="assets/deco/ex.png" class="ex1">
+		<img src="assets/deco/oh.png" class="oh1">
+		<img src="assets/deco/ex.png" class="ex2">
+		<img src="assets/deco/oh.png" class="oh2">
+	</div>
+
   </body>
 </html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPEC TECH</title>
+    <style>
+
+    	@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+
+		html {
+			box-sizing: border-box;
+		}
+
+		*, *:before; *:after; {
+			box-sizing: inherit;
+		}
+
+		body {
+			padding: 0; 
+			margin: 0;
+			text-align: center;
+			background-color: #B5C140;
+			user-select: none;
+			color: #F2F4ED;
+			font-family: 'Raleway', sans-serif;
+		}
+
+			/* width */
+		::-webkit-scrollbar {
+		  width: 10px;
+		  border-radius: 5px;
+		}
+
+		/* Track */
+		::-webkit-scrollbar-track {
+		  background: #E9F499;
+		}
+
+		/* Handle */
+		::-webkit-scrollbar-thumb {
+		  background: #7B7F2140;
+		}
+
+		/* Handle on hover */
+		::-webkit-scrollbar-thumb:hover {
+		  background: #7B7F2170;
+		}
+
+		p {
+			font-size: 18px;
+		}
+
+		p, h1, h2, h3, h4, h5 {
+			color: #F2F4ED;
+		}
+
+		h1, h2, h3, h4, h5 {
+			font-size: 22px;
+		}
+
+		header {
+			display: absolute;
+			margin: auto;
+			text-align: center;
+			width: 300px;
+			height: 80px;
+		}
+
+		#skip {
+			position: absolute;
+			width: 120px;
+			bottom: 20%;
+			right: 10%;
+			font-size: 26px;
+			z-index: 10;
+			outline: white 5px solid;
+			transition: 0.3s;
+			background-color: #00000050;
+			opacity: 0;
+			animation-name: fadein;
+			animation-duration: 0.5s;
+			animation-delay: 2s;
+			animation-fill-mode: forwards;
+		}
+
+		#skip:hover {
+			outline: white 10px solid;
+		}
+
+		@keyframes fadein {
+		  from {
+		  	opacity: 0;
+		  }
+		  to {
+		  	opacity: 1;
+		  }
+		}
+
+
+    </style>
+    <link rel="shortcut icon" href="assets/favicon.png" />
+  </head>
+
+  <body>
+	<header>
+	</header>
+
+	<video width="1366" height="768" controls>
+	  <source src="assets/video.mp4" type="video/mp4" autoplay>
+	</video>
+
+	<a href="game.html">
+	<div id="skip">
+		<p>SKIP VIDEO</p>
+	</div>
+	</a>
+
+  </body>
+</html>
