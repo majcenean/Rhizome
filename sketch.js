@@ -80,6 +80,10 @@ var intBorder;
 let titleFont;
 let bodyFont;
 
+// CreateGraphics
+var mushCanvas;
+var mushSize = 450;
+
 /*************************************************************************
 // Function preload
 **************************************************************************/
@@ -94,6 +98,9 @@ function preload() {
   tintImage = loadImage("assets/tint.png");
   textBox = loadImage("assets/textbox.png");
   angerImage = loadImage("assets/anger_emoji.png");
+
+  // Model
+  mushModel = loadModel('assets/mushroom.obj', true);
 
   // Integration Images
   int[0] = loadImage("assets/int/integration_0.png");
@@ -125,6 +132,9 @@ function preload() {
 // Setup the adventure manager
 function setup() {
   createCanvas(1366, 768);
+
+  // createGraphics
+  mushCanvas = createGraphics(mushSize, mushSize, WEBGL);
 
   // Style
   background(palette[2]);
@@ -455,6 +465,7 @@ cl_CHOICE_FALSEINFO_THREATEN = function() {
 
 cl_CHOICE_TESTING_MORE = function() {
   characters[SOC].addAnger(1);
+  characters[ENTH].addAnger(1);
   characters[PSYCH].subAnger(1);
   v_CHOICE_TESTING_MORE = true;
   addIntegration(1);
@@ -463,6 +474,7 @@ cl_CHOICE_TESTING_MORE = function() {
 
 cl_CHOICE_TESTING_LESS = function() {
   characters[SOC].subAnger(1);
+  characters[GOV].addAnger(1);
   characters[PSYCH].addAnger(1);
   v_CHOICE_TESTING_LESS = true;
   addIntegration(2);
@@ -480,9 +492,7 @@ cl_CHOICE_PRICING_EXPENSIVE = function() {
 
 cl_CHOICE_PRICING_AFFORDABLE = function() {
   characters[SOC].subAnger(1);
-  characters[ENTH].addAnger(1);
-  characters[GOV].addAnger(1);
-  characters[PSYCH].addAnger(1);
+  characters[ENTH].subAnger(1);
   characters[ANTI].subAnger(1);
   v_CHOICE_PRICING_AFFORDABLE = true;
   addIntegration(3);
@@ -684,7 +694,7 @@ function loadAllText() {
 
   // BG and INTRODUCTION
   states[0].setText("Humanity is in desperate need... of itself. With many facing an incapability to simply go outside and make friends, one group of forward-thinkers has developed a new technology that may mean the end of human loneliness. Connect to The Interface: a global network of human minds, made possible by combining the capabilities of the human mind with that of vast underground fungal networks. By integrating oneself with The Interface, one will never be alone again; their thoughts, desires, and needs are inherently shared with their peers.\n\nBut how to introduce humanity to this radical step forward? Your responsibility as the leader of The Interface is to promote it to all members of the globe. But be warned - some do not look upon this solution with such favorable eyes.");
-  states[1].setText("The life-changing interface is about to hit the market for the first time. Handle its publicity and guide it...");
+  states[1].setText("From the cutting edge of technology comes a solution to all humanly woes. By studying the underground networks of fungi, scientists have developed a cure for the loneliness rampant in modern society. By integrating with The Interface, participants connect seamlessly to each other’s thoughts, feelings, and emotions, and can be certain that they will never suffer loneliness again.\n\nSecure your space in The Interface today!");
 
   // BRANDING
   // Decision 
@@ -695,31 +705,31 @@ function loadAllText() {
 
   // INFO SHARING
   // Decision
-  states[5].setText("Inquiry into the methods and technologies of The Interface has increased at the behest of skeptics. How should The Interface handle the release of information? Should they be kept a secret or divulged to the world at large? Or, alternatively, should they be replaced with a decoy?");
+  states[5].setText("A rumor has been circulating that The Interface seeks to create a human hivemind by combining the genetic material of humans and fungi. Inquiry into the methods and technologies of The Interface has increased at the behest of skeptics. How should The Interface handle the release of this sensitive information, information which, if released, could greatly upset the public?");
   // Choices
-  states[6].setText("");
-  states[7].setText("");
+  states[6].setText("Governments across the globe are scrutinizing The Interface’s background and future plans due to their refusal to release records.\n\nLoyal tech enthusiasts, on the other hand, defend The Interface saying that they have a right to keep company secrets to themselves.");
+  states[7].setText("Shocked by the reality which is not too far from the rumors, support for The Interface goes down amongst skeptics.\n\nElsewhere in the conversations of mental health professionals, The Interface’s strides in human biology are receiving commendations.");
 
   // FALSE INFORMATION
   // Decision
   states[8].setText("The false info has been received very well by the public, it astounds and amazes… but some employees of The Interface have begun to feel uncomfortable with the fact that they falsified information to the public. Some have even threatened to expose the little white lies. Should these employees be paid off for their silence, or threatened?");
   // Choices
-  states[9].setText("");
-  states[10].setText("");
+  states[9].setText("The unsettled employees are paid off fastidiously and discreetly. They fade back into the company, taking their bribes with them. Outside, public support for The Interface increases with the guise of the falsified information.");
+  states[10].setText("The employees, now recognizing the threat that The Interface poses, organize against it. Quitting in unison, they run to the nearest news outlets to describe the real records they were forced to keep secret. The world is shocked, and public support for The Interface rapidly declines.");
   
   // TESTING
   // Decision
   states[11].setText("Governments across the globe want to ensure The Interface is safe for their people to participate in. Some have requested further testing before the technology is launched in their country. Should The Interface be subjected to further testing before it hits the market, or should it give in to the impatient, demanding consumers ready to buy now?");
   // Choices
-  states[12].setText("");
-  states[13].setText("");
+  states[12].setText("Frustrated by the delayed timeline, many ravenously awaiting The Interface have been raging against the false promises of a fast delivery to the public.\n\nThe delays in The Interface’s technology going public come with high recommendations and thanks from professionals, who assert that more testing was needed in order to avert disaster.");
+  states[13].setText("The Interface gains many more happy participants today as it prepares to open up public access to its technology, much to the pleasure of the lonely and once-suffering masses.\n\nCriticism from governments, along with psychologists and doctors, ramp up against The Interface, touting claims that the technology is not safe yet for human participants. Only time will tell...");
   
   // PRICING
   // Decision
   states[14].setText("The Interface is about to launch publically for the first time. What scale of pricing should people expect? Should it be an exclusive, pricey status symbol, or an everyman's solution?");
   // Choices
-  states[15].setText("");
-  states[16].setText("");
+  states[15].setText("Loyal enthusiasts and those desperate for the technology promised by The Interface cry out in protest today as the company revealed its skyrocketing prices.\n\nProfessionals come to the defense of The Interface, citing the high costs of medical research and the current state of the pharmaceutical industry as justification.");
+  states[16].setText("The Interface delivers its promises to the public today as its technology rolls out for prices even lower than predicted, causing great rejoice and clamoring amongst the chronically lonely population.\n\nEnthusiasts of the brand as well as those who were initially against it are pleased by the accessible pricing.");
 
   // Tour
   states[17].setText("Hey! This tour will guide you around your decision-making desk. Let's get started!");
@@ -729,13 +739,13 @@ function loadAllText() {
   states[21].setText("That's all for the tour! Have fun playing!\n\nAnd don't forget... your choices will decide the fate of humanity and all of its lonely souls!");
 
   // Endings
-  states[22].setText('heyyyyy this is the ending');
-  states[23].setText('ending1');
-  states[24].setText('ending2');
-  states[25].setText('ending3');
-  states[26].setText('ending4');
-  states[27].setText('ending5');
-  states[28].setText('ending6');
+  states[22].setText("The Interface is released publicly for the first time, changing the course of humanity forever.");
+  states[23].setText("The Interface has made it possible for humans to connect like never before. Feeling everyone else’s emotions, knowing everyone else’s knowledge, and thinking everyone else’s thoughts is what is considered “natural” in this new reality. Intertwined in every possible manner, the consciousnesses of all participants in The Interface meld together, in an organism that is not quite human, and is not quite fungus. Spreading to all humans, whatever this being is has claimed dominance over the planet.");
+  states[24].setText("Is The Interface the saviour of humanity? Quite possibly. Loneliness becomes a thing of the past in this bright future, where instant connection with others’ minds is possible. Friendships and other relationships are instant, simple, and easy. Emotions are shared with great empathy amongst participants who can understand another’s feelings precisely. It is still an individual choice of one to join The Interface, but more and more companies have begun to require it as it is shown to improve workplace efficiency by over 50%.");
+  states[25].setText("Angered and fearful of the technology The Interface presents human societies with, public opinion drops rapidly, with many groups beseeching their governments to persecute The Interface and its participants. When governments did not respond to these cries, they took matters into their own hands and destroyed the company. As for those who had already taken part in The Interface, with no way to reverse their participation… they were the targets of violence; however, as they were able to communicate with one another instantly, they fought back with surprising force. Thus started the wars of the 22nd century...");
+  states[26].setText("As it comes to control most of the global population, The Interface becomes the hailed leader of the world. The shared mindspace is a tool to control the actions of the masses, pummeling non-participants into submission. The company frequently deletes information from its participants’ minds deemed unsavory, such as questioning of independence or thoughts of revolt. Humanity is reduced to an army of obedient servants and soldiers, ready to be deployed at any time.");
+  states[27].setText("With its pricing too unfathomably high to be a feasible solution for the common man, The Interface remains the exclusive right of the rich and wealthy. Instantly able to communicate with one another, they use their shared mindspace to exchange information to help keep control on the economies and markets. It is not often that a person makes enough money to buy into The Interface; usually, they are born into it. The separation between rich and poor worldwide grows more and more vast with each passing day...");
+  states[28].setText("A solution for a while, The Interface gains publicity across the globe and more and more participants seeking respite from loneliness; however, it eventually ceases to be the most attractive solution on the market, and The Interface fades into obscurity as generations pass.");
 }
 
 /*************************************************************************
@@ -777,8 +787,9 @@ class BackgroundScreen extends PNGRoom {
 
 class InstructionScreen extends PNGRoom {
   preload() {
-    this.textBoxWidth = (width/6)*4;
+    this.textBoxWidth = (width/6)*2;
     this.textBoxHeight = (height/6)*3; 
+    this.titleText = "What is The Interface?"
     this.bodyText = "";
   }
 
@@ -790,11 +801,43 @@ class InstructionScreen extends PNGRoom {
     super.draw();
     background(palette[2]);
 
+    // Create Graphics
+    mushCanvas.background(palette[2]);
+
+    let locX = mouseX - height / 2;
+    let locY = mouseY - width / 2;
+
+    mushCanvas.ambientLight(60, 60, 60);
+    mushCanvas.pointLight(242, 244, 237, mouseX, mouseY, 100);
+    mushCanvas.pointLight(242, 244, 237, mouseX, mouseY, 100);
+    mushCanvas.ambientMaterial(250);
+    mushCanvas.noStroke();
+    mushCanvas.fill(123, 127, 33);
+
+    // Scale and Rotation
+    mushCanvas.scale(1);
+    mushCanvas.rotateZ(0.01);
+    mushCanvas.rotateX(0.01);
+    mushCanvas.rotateY(0.01);
+
+    // Material and Model
+    mushCanvas.model(mushModel);
+
+    image(mushCanvas, 150, 100);
+
+    push();
+    fill(palette[0]);
+    textAlign(LEFT);
+    textFont(titleFont);
+    textSize(42);
+    text(this.titleText, width/2, (height/6)*2 - 120, this.textBoxWidth, this.textBoxHeight);
+    pop();
+
     push();
     fill(palette[0]);
     textAlign(LEFT);
     textSize(24);
-    text(this.bodyText, width/6, (height/6)*2 + 15, this.textBoxWidth, this.textBoxHeight);
+    text(this.bodyText, width/2, (height/6)*2, this.textBoxWidth + 50, this.textBoxHeight);
     pop();
   }
 }
@@ -990,14 +1033,43 @@ class EndingScreen extends PNGRoom {
   }
 
   draw() {
-    super.draw();
     background(palette[2]);
+    super.draw();
 
+if (adventureManager.getStateName() === "Ending" ) {
     push();
     fill(palette[0]);
-    textSize(30);
+    textSize(32);
     textAlign(CENTER);
     text(this.bodyText, width/6, (height/6)*2 + 15, this.textBoxWidth, this.textBoxHeight);
     pop();
+}
+else if (adventureManager.getStateName() === "Ending6" ) {
+    let offset = 50;
+    push();
+    rectMode(CORNER);
+    fill(66, 66, 44, 200);
+    noStroke();
+    rect(width/6 - offset/2, 200 - offset/3, this.textBoxWidth + offset, this.textBoxHeight/1.2 - offset*2);
+    fill(palette[0]);
+    textSize(26);
+    textAlign(LEFT);
+    text(this.bodyText, width/6, 200 + 15, this.textBoxWidth, this.textBoxHeight/1.2);
+    pop();
+}
+else {
+    let offset = 50;
+
+    push();
+    rectMode(CORNER);
+    fill(66, 66, 44, 200);
+    noStroke();
+    rect(width/6 - offset/2, height/2 - offset/3, this.textBoxWidth + offset, this.textBoxHeight - offset*2);
+    fill(palette[0]);
+    textSize(26);
+    textAlign(LEFT);
+    text(this.bodyText, width/6, height/2 + 15, this.textBoxWidth, this.textBoxHeight);
+    pop();
+}
   }
 }

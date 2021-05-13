@@ -1,0 +1,8 @@
+  5/13/2021 5:19:07 AM: Starting composition “Rhizome Video 2”.
+
+  Output To: C:\Users\majen\Desktop\project3\Video\Rhizome Video 2.avi    5/13/2021 5:19:18 AM: Finished composition “Rhizome Video 2”.
+
+
+  Total Time Elapsed: 11 Seconds
+Log closed on 5/13/2021 at 5:19:18 AM
+

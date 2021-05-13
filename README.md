@@ -49,6 +49,13 @@ Rich Solution Ending:
 
 
 ##### assets
+Mushroom 3D Model:
+* *Golden Mushroom* by ibrahim alrifai on Turbosquid
+* https://www.turbosquid.com/3d-models/free-golden-mushroom-3d-model/921519
+
+Music from Introductory Video:
+* *Dramatic background music for news, documentary - Dramatic News \ instrumental music for youtube* by SnowMusicStudio (Apr 28, 2020).
+* https://www.youtube.com/watch?v=2DAVD4B7Yrs
 
 
 ##### libraries

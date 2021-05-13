@@ -1,0 +1,8 @@
+  5/13/2021 5:13:18 AM: Starting composition “Rhizome Video”.
+
+  Output To: C:\Users\majen\Documents\Fish Soup Productions\Videos\Channel announcement\Rhizome Video.avi    5/13/2021 5:13:36 AM: Finished composition “Rhizome Video”.
+
+
+  Total Time Elapsed: 18 Seconds
+Log closed on 5/13/2021 at 5:13:36 AM
+
